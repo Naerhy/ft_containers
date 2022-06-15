@@ -5,6 +5,9 @@
 #include <iterator>
 #include <memory>
 
+#include "vector_iterator.hpp"
+#include "../utils.hpp"
+
 namespace ft
 {
 	template <typename T, typename Allocator = std::allocator<T>>
@@ -20,79 +23,7 @@ namespace ft
 			typedef typename Allocator::size_type size_type;
 			typedef typename Allocator::difference_type difference_type;
 
-			class vector_iterator
-			{
-				public:
-					typedef std::random_access_iterator_tag iterator_category;
-					typedef T value_type;
-					typedef T& reference;
-					typedef T* pointer;
-					typedef std::ptrdiff_t difference_type;
-
-					/**********************************************************
-					*            CONSTRUCTORS                                 *
-					**********************************************************/
-
-					vector_iterator(pointer ptr) : _ptr(ptr) {}
-					vector_iterator(vector_iterator const& copy) { _ptr = copy._ptr; }
-					~vector_iterator() {}
-
-					/**********************************************************
-					*            OPERATORS OVERLOAD                           *
-					**********************************************************/
-
-					vector_iterator& operator=(vector_iterator const& copy)
-					{
-						if (&copy != this)
-							_ptr = copy._ptr;
-						return *this;
-					}
-
-					reference operator*() const { return *_ptr; }
-					pointer operator->() const { return _ptr; }
-
-					bool operator==(vector_iterator const& x) const { return _ptr == x._ptr; }
-					bool operator!=(vector_iterator const& x) const { return _ptr != x._ptr; }
-					bool operator<(vector_iterator const& x) const { return _ptr < x._ptr; }
-					bool operator>(vector_iterator const& x) const { return _ptr > x._ptr; }
-					bool operator<=(vector_iterator const& x) const { return _ptr <= x._ptr; }
-					bool operator>=(vector_iterator const& x) const { return _ptr >= x._ptr; }
-
-					vector_iterator& operator++()
-					{
-						_ptr++;
-						return *this;
-					}
-
-					vector_iterator operator++(int)
-					{
-						vector_iterator temp(*this);
-						++(*this);
-						return temp;
-					}
-
-					vector_iterator& operator--()
-					{
-						_ptr--;
-						return *this;
-					}
-
-					vector_iterator operator--(int)
-					{
-						vector_iterator temp(*this);
-						--(*this);
-						return temp;
-					}
-
-				private:
-					pointer _ptr;
-			};
-
-			// class ConstIterator
-			// {
-			// };
-
-			typedef vector_iterator iterator;
+			typedef vector_iterator<T> iterator;
 			// typedef const_iterator
 			// typedef reverse_iterator
 			// typedef const_reverse_iterator
@@ -104,9 +35,9 @@ namespace ft
 			explicit vector(allocator_type const& alloc = allocator_type())
 			{
 				_allocator = alloc;
-				_data = _allocator.allocate(0);
 				_size = 0;
 				_capacity = 0;
+				_data = _allocator.allocate(0);
 			}
 
 			explicit vector(size_type n, value_type const& val = value_type(),
@@ -122,18 +53,28 @@ namespace ft
 
 			/*template <typename InputIterator>
 			vector(InputIterator first, InputIterator last,
-					allocator_type const& alloc = allocator_type())
+					allocator_type const& alloc = allocator_type(),
+					typename enable_if< > = )
 			{
+				_allocator = alloc;
+				_size = 0;
+				_capacity = 0;
+				_data = _allocator.allocate(0);
+				while (first != last)
+				{
+					push_back(*first);
+					first++;
+				}
 			}*/
 
-			vector(vector const& x)
+			vector(vector const& copy)
 			{
-				_allocator = x._allocator;
-				_size = x._size;
-				_capacity = x._capacity;
+				_allocator = copy._allocator;
+				_size = copy._size;
+				_capacity = copy._capacity;
 				_data = _allocator.allocate(_capacity);
 				for (size_type i = 0; i < _size; i++)
-					_allocator.constructor(_data + i, x[i]);
+					_allocator.constructor(_data + i, *(copy + i));
 			}
 
 			/******************************************************************
@@ -151,21 +92,21 @@ namespace ft
 			*            OPERATORS OVERLOAD                                   *
 			******************************************************************/
 
-			vector& operator=(vector const& x)
+			vector& operator=(vector const& copy)
 			{
-				if (&x != this)
+				if (&copy != this)
 				{
 					for (size_type i = 0; i < _size; i++)
 						_allocator.destroy(_data + i);
-					if (_capacity < x._size)
+					if (_capacity < copy._size)
 					{
 						_allocator.deallocate(_data, _capacity);
-						_capacity = x._size;
+						_capacity = copy._size;
 						_data = _allocator.allocate(_capacity);
 					}
-					_size = x._size;
+					_size = copy._size;
 					for (size_type i = 0; i < _size; i++)
-						_allocator.construct(_data + i, x[i]);
+						_allocator.construct(_data + i, *(copy + i));
 				}
 				return *this;
 			}
@@ -174,8 +115,22 @@ namespace ft
 			*            ITERATORS                                            *
 			******************************************************************/
 
-			iterator begin() { return iterator(_data); }
-			iterator end() { return iterator(_data + _size); }
+			iterator begin(void) { return iterator(_data); }
+			iterator end(void) { return iterator(_data + _size); }
+
+			void resize(size_type n, value_type val = value_type())
+			{
+				if (n <= _size)
+				{
+					while (_size > n)
+						pop_back();
+				}
+				else
+				{
+					while (_size < n)
+						push_back(val);
+				}
+			}
 
 			// THROW EXCEPTION
 			// THROW EXCEPTION
@@ -202,6 +157,28 @@ namespace ft
 					reserve(_calculate_next_capacity());
 				_allocator.construct(_data + _size, val);
 				_size++;
+			}
+
+			void pop_back(void)
+			{
+				// undefined behaviour if called on empty vector
+				// add a condition if size > 0 ??
+				_allocator.destroy(_data + _size - 1);
+				_size--;
+			}
+
+			void swap(vector& x)
+			{
+				ft::swap(_allocator, x._allocator);
+				ft::swap(_size, x._size);
+				ft::swap(_capacity, x._capacity);
+				ft::swap(_data, x._data);
+			}
+
+			void clear(void)
+			{
+				while (_size)
+					pop_back();
 			}
 
 			reference operator[](size_type n) { return *(_data + n); }
@@ -241,6 +218,8 @@ namespace ft
 					return false;
 				return true;
 			}
+
+			allocator_type get_allocator(void) const { return _allocator; }
 
 		private:
 			pointer _data;
