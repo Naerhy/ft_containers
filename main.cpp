@@ -20,11 +20,20 @@ int main(void)
 	for (int i = 10; i < 19; i++)
 		ft_vect2.push_back(i);
 
-	std::cout << vect.size() << " - " << vect.capacity() << std::endl;
-	std::cout << ft_vect.size() << " - " << ft_vect.capacity() << std::endl;
+	std::cout << "Looping..." << std::endl;
+	for (std::vector<int>::iterator it = vect.begin(); it != vect.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl;
 
-	std::cout << vect.at(3) << " " << vect[5] << std::endl;
-	std::cout << ft_vect.at(3) << " " << ft_vect[5] << std::endl;
+	std::cout << "Looping... (ft)" << std::endl;
+	for (ft::vector<int>::iterator it = ft_vect.begin(); it != ft_vect.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl;
+
+	/*std::cout << "Erasing..." << std::endl;
+
+	vect.erase(vect.end() - 5, vect.end() - 2);
+	ft_vect.erase(ft_vect.end() - 5, ft_vect.end() - 2);
 
 	std::cout << "Looping..." << std::endl;
 	for (std::vector<int>::iterator it = vect.begin(); it != vect.end(); it++)
@@ -32,19 +41,22 @@ int main(void)
 
 	std::cout << "Looping... (ft)" << std::endl;
 	for (ft::vector<int>::iterator it = ft_vect.begin(); it != ft_vect.end(); it++)
-		std::cout << *it << std::endl;
+		std::cout << *it << std::endl;*/
 
-	std::cout << "Swapping..." << std::endl;
-	vect.swap(vect2);
-	ft_vect.swap(ft_vect2);
+	std::cout << "Inserting..." << std::endl;
+
+	vect.insert(vect.begin() + 2, vect2.begin(), vect2.end());
+	ft_vect.insert(ft_vect.begin() + 2, ft_vect2.begin(), ft_vect2.end());
 
 	std::cout << "Looping..." << std::endl;
 	for (std::vector<int>::iterator it = vect.begin(); it != vect.end(); it++)
-		std::cout << *it << std::endl;
+		std::cout << *it << " ";
+	std::cout << std::endl;
 
 	std::cout << "Looping... (ft)" << std::endl;
 	for (ft::vector<int>::iterator it = ft_vect.begin(); it != ft_vect.end(); it++)
-		std::cout << *it << std::endl;
+		std::cout << *it << " ";
+	std::cout << std::endl;
 
 	return 0;
 }

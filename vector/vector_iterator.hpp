@@ -80,20 +80,11 @@ namespace ft
 				return *this;
 			}
 
-			vector_iterator operator+(difference_type i)
-			{
-				return vector_iterator(_ptr + i);
-			}
+			vector_iterator operator+(difference_type i) { return vector_iterator(_ptr + i); }
 
-			vector_iterator operator-(difference_type i)
-			{
-				return vector_iterator(_ptr - i);
-			}
+			vector_iterator operator-(difference_type i) { return vector_iterator(_ptr - i); }
 
-			difference_type operator-(vector_iterator const& x) const
-			{
-				return _ptr - x._ptr;
-			}
+			difference_type operator-(vector_iterator const& x) const { return _ptr - x._ptr; }
 
 		private:
 			pointer _ptr;
