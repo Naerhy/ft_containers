@@ -18,17 +18,17 @@ namespace ft
 			******************************************************************************/
 
 			vector_iterator(pointer ptr) : _ptr(ptr) {}
-			vector_iterator(vector_iterator const& copy) { _ptr = copy._ptr; }
+			vector_iterator(vector_iterator const& copy) : _ptr(copy._ptr); {}
 			~vector_iterator(void) {}
 
 			/**********************************************************
 			*            OPERATORS OVERLOAD                           *
 			**********************************************************/
 
-			vector_iterator& operator=(vector_iterator const& copy)
+			vector_iterator& operator=(vector_iterator const& assign)
 			{
-				if (&copy != this)
-					_ptr = copy._ptr;
+				if (this != &assign)
+					_ptr = assign._ptr;
 				return *this;
 			}
 

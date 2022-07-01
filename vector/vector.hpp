@@ -14,6 +14,8 @@
 // DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
 // DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
 // DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
+//
+// USE CONSTRUCTOR LIST TO INIT IN CONSTRUCTOR [?]
 
 namespace ft
 {
@@ -34,7 +36,7 @@ namespace ft
 			typedef typename Allocator::difference_type difference_type;
 
 			typedef vector_iterator<T> iterator;
-			// typedef const_iterator
+			typedef vector_iterator<T const> const_iterator
 			// typedef reverse_iterator
 			// typedef const_reverse_iterator
 
@@ -93,20 +95,20 @@ namespace ft
 				_allocator.deallocate(_data, _capacity);
 			}
 
-			vector& operator=(vector const& copy)
+			vector& operator=(vector const& assign)
 			{
-				if (&copy != this)
+				if (this != &assign)
 				{
 					clear();
-					if (_capacity < copy._size)
+					if (_capacity < assign._size)
 					{
 						_allocator.deallocate(_data, _capacity);
-						_capacity = copy._size;
+						_capacity = assign._size;
 						_data = _allocator.allocate(_capacity);
 					}
-					_size = copy._size;
+					_size = assign._size;
 					for (size_type i = 0; i < _size; i++)
-						_allocator.construct(_data + i, *(copy + i));
+						_allocator.construct(_data + i, *(assign + i));
 				}
 				return *this;
 			}
@@ -116,7 +118,9 @@ namespace ft
 			**************************************************************************************/
 
 			iterator begin(void) { return iterator(_data); }
+			const_iterator begin(void) const { return const_iterator(_data); }
 			iterator end(void) { return iterator(_data + _size); }
+			const_iterator end(void) const { return const_iterator(_data + _size); }
 
 			/**************************************************************************************
 			*            CAPACITY                                                                 *
