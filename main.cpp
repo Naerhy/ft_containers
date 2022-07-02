@@ -25,10 +25,30 @@ int main(void)
 		std::cout << *it << " ";
 	std::cout << std::endl;
 
+	std::cout << std::endl;
+
 	std::cout << "Looping... (ft)" << std::endl;
 	for (ft::vector<int>::iterator it = ft_vect.begin(); it != ft_vect.end(); it++)
 		std::cout << *it << " ";
 	std::cout << std::endl;
+
+	std::cout << std::endl;
+
+	/*std::cout << "Multiplying by 2 before printing:" << std::endl;
+	for (std::vector<int>::const_iterator it = vect.begin(); it != vect.end(); it++)
+	{
+		*it *= 2;
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;*/
+
+	/*std::cout << "Multiplying by 2 before printing: (ft)" << std::endl;
+	for (ft::vector<int>::const_iterator it = ft_vect.begin(); it != ft_vect.end(); it++)
+	{
+		*it *= 2;
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;*/
 
 	/*std::cout << "Erasing..." << std::endl;
 
@@ -41,7 +61,7 @@ int main(void)
 
 	std::cout << "Looping... (ft)" << std::endl;
 	for (ft::vector<int>::iterator it = ft_vect.begin(); it != ft_vect.end(); it++)
-		std::cout << *it << std::endl;*/
+		std::cout << *it << std::endl;
 
 	std::cout << "Inserting..." << std::endl;
 
@@ -56,7 +76,7 @@ int main(void)
 	std::cout << "Looping... (ft)" << std::endl;
 	for (ft::vector<int>::iterator it = ft_vect.begin(); it != ft_vect.end(); it++)
 		std::cout << *it << " ";
-	std::cout << std::endl;
+	std::cout << std::endl;*/
 
 	return 0;
 }

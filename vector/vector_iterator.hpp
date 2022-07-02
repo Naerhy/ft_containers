@@ -18,7 +18,7 @@ namespace ft
 			******************************************************************************/
 
 			vector_iterator(pointer ptr) : _ptr(ptr) {}
-			vector_iterator(vector_iterator const& copy) : _ptr(copy._ptr); {}
+			vector_iterator(vector_iterator const& copy) : _ptr(copy._ptr) {}
 			~vector_iterator(void) {}
 
 			/**********************************************************

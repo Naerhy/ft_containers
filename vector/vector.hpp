@@ -36,7 +36,7 @@ namespace ft
 			typedef typename Allocator::difference_type difference_type;
 
 			typedef vector_iterator<T> iterator;
-			typedef vector_iterator<T const> const_iterator
+			// typedef vector_const_iterator<T> const_iterator;
 			// typedef reverse_iterator
 			// typedef const_reverse_iterator
 
@@ -118,9 +118,9 @@ namespace ft
 			**************************************************************************************/
 
 			iterator begin(void) { return iterator(_data); }
-			const_iterator begin(void) const { return const_iterator(_data); }
+			// const_iterator begin(void) const { return const_iterator(_data); }
 			iterator end(void) { return iterator(_data + _size); }
-			const_iterator end(void) const { return const_iterator(_data + _size); }
+			// const_iterator end(void) const { return const_iterator(_data + _size); }
 
 			/**************************************************************************************
 			*            CAPACITY                                                                 *
@@ -254,7 +254,7 @@ namespace ft
 			{
 				for (size_type i = 0; i < n; i++)
 					insert(position, val);
-			}*/
+			}
 
 			template <typename InputIt>
 			void insert(iterator position, InputIt first, InputIt last)
@@ -276,7 +276,7 @@ namespace ft
 					push_back(*(temp + index));
 					index++;
 				}
-			}
+			}*/
 
 			iterator erase(iterator position)
 			{
