@@ -8,6 +8,7 @@
 // for tests:
 #include <iostream>
 
+#include "vector_const_iterator.hpp"
 #include "vector_iterator.hpp"
 #include "../utils.hpp"
 
@@ -36,7 +37,7 @@ namespace ft
 			typedef typename Allocator::difference_type difference_type;
 
 			typedef vector_iterator<T> iterator;
-			// typedef vector_const_iterator<T> const_iterator;
+			typedef vector_const_iterator<T> const_iterator;
 			// typedef reverse_iterator
 			// typedef const_reverse_iterator
 
@@ -118,9 +119,9 @@ namespace ft
 			**************************************************************************************/
 
 			iterator begin(void) { return iterator(_data); }
-			// const_iterator begin(void) const { return const_iterator(_data); }
+			const_iterator begin(void) const { return const_iterator(_data); }
 			iterator end(void) { return iterator(_data + _size); }
-			// const_iterator end(void) const { return const_iterator(_data + _size); }
+			const_iterator end(void) const { return const_iterator(_data + _size); }
 
 			/**************************************************************************************
 			*            CAPACITY                                                                 *

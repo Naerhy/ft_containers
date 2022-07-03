@@ -20,19 +20,44 @@ int main(void)
 	for (int i = 10; i < 19; i++)
 		ft_vect2.push_back(i);
 
-	std::cout << "Looping..." << std::endl;
+	std::cout << std::endl;
+
+	for (std::vector<int>::const_iterator cit = vect.begin(); cit != vect.end(); cit++)
+		std::cout << *cit << std::endl;
+
+	std::cout << std::endl;
+
+	for (ft::vector<int>::const_iterator fcit = ft_vect.begin(); fcit != ft_vect.end(); fcit++)
+		std::cout << *fcit << std::endl;
+
+	std::cout << std::endl;
+
 	for (std::vector<int>::iterator it = vect.begin(); it != vect.end(); it++)
-		std::cout << *it << " ";
-	std::cout << std::endl;
+	{
+		*it *= 10;
+		std::cout << *it << std::endl;
+	}
 
 	std::cout << std::endl;
 
-	std::cout << "Looping... (ft)" << std::endl;
-	for (ft::vector<int>::iterator it = ft_vect.begin(); it != ft_vect.end(); it++)
-		std::cout << *it << " ";
-	std::cout << std::endl;
+	for (ft::vector<int>::iterator fit = ft_vect.begin(); fit != ft_vect.end(); fit++)
+	{
+		*fit *= 10;
+		std::cout << *fit << std::endl;
+	}
 
-	std::cout << std::endl;
+	std::vector<int>::iterator it = vect.begin();
+	std::vector<int>::const_iterator cit = vect.begin();
+
+	cit = it;
+	std::vector<int>::const_iterator ccit = it;
+
+	ft::vector<int>::iterator fit = ft_vect.begin();
+	ft::vector<int>::const_iterator cfit = ft_vect.begin();
+
+	cfit = fit;
+	ft::vector<int>::const_iterator fccit = fit;
+
 
 	/*std::cout << "Multiplying by 2 before printing:" << std::endl;
 	for (std::vector<int>::const_iterator it = vect.begin(); it != vect.end(); it++)
