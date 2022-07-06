@@ -4,104 +4,39 @@
 
 int main(void)
 {
-	std::vector<int> vect;
-	std::vector<int> vect2;
-
-	ft::vector<int> ft_vect;
-	ft::vector<int> ft_vect2;
-
-	for (int i = 0; i < 9; i++)
-		vect.push_back(i);
-	for (int i = 10; i < 19; i++)
-		vect2.push_back(i);
-
-	for (int i = 0; i < 9; i++)
-		ft_vect.push_back(i);
-	for (int i = 10; i < 19; i++)
-		ft_vect2.push_back(i);
-
+	std::cout << "Creating empty vector" << std::endl;
+	std::vector<int> A;
+	ft::vector<int> Aa;
 	std::cout << std::endl;
 
-	for (std::vector<int>::const_iterator cit = vect.begin(); cit != vect.end(); cit++)
-		std::cout << *cit << std::endl;
-
-	std::cout << std::endl;
-
-	for (ft::vector<int>::const_iterator fcit = ft_vect.begin(); fcit != ft_vect.end(); fcit++)
-		std::cout << *fcit << std::endl;
-
-	std::cout << std::endl;
-
-	for (std::vector<int>::iterator it = vect.begin(); it != vect.end(); it++)
+	std::cout << "Pushing elements into vector" << std::endl;
+	for (int i = 0; i < 5; i++)
 	{
-		*it *= 10;
-		std::cout << *it << std::endl;
+		A.push_back(i * 10);
+		Aa.push_back(i * 10);
 	}
-
 	std::cout << std::endl;
 
-	for (ft::vector<int>::iterator fit = ft_vect.begin(); fit != ft_vect.end(); fit++)
-	{
-		*fit *= 10;
-		std::cout << *fit << std::endl;
-	}
-
-	std::vector<int>::iterator it = vect.begin();
-	std::vector<int>::const_iterator cit = vect.begin();
-
-	cit = it;
-	std::vector<int>::const_iterator ccit = it;
-
-	ft::vector<int>::iterator fit = ft_vect.begin();
-	ft::vector<int>::const_iterator cfit = ft_vect.begin();
-
-	cfit = fit;
-	ft::vector<int>::const_iterator fccit = fit;
-
-
-	/*std::cout << "Multiplying by 2 before printing:" << std::endl;
-	for (std::vector<int>::const_iterator it = vect.begin(); it != vect.end(); it++)
-	{
-		*it *= 2;
-		std::cout << *it << " ";
-	}
-	std::cout << std::endl;*/
-
-	/*std::cout << "Multiplying by 2 before printing: (ft)" << std::endl;
-	for (ft::vector<int>::const_iterator it = ft_vect.begin(); it != ft_vect.end(); it++)
-	{
-		*it *= 2;
-		std::cout << *it << " ";
-	}
-	std::cout << std::endl;*/
-
-	/*std::cout << "Erasing..." << std::endl;
-
-	vect.erase(vect.end() - 5, vect.end() - 2);
-	ft_vect.erase(ft_vect.end() - 5, ft_vect.end() - 2);
-
-	std::cout << "Looping..." << std::endl;
-	for (std::vector<int>::iterator it = vect.begin(); it != vect.end(); it++)
-		std::cout << *it << std::endl;
-
-	std::cout << "Looping... (ft)" << std::endl;
-	for (ft::vector<int>::iterator it = ft_vect.begin(); it != ft_vect.end(); it++)
-		std::cout << *it << std::endl;
-
-	std::cout << "Inserting..." << std::endl;
-
-	vect.insert(vect.begin() + 2, vect2.begin(), vect2.end());
-	ft_vect.insert(ft_vect.begin() + 2, ft_vect2.begin(), ft_vect2.end());
-
-	std::cout << "Looping..." << std::endl;
-	for (std::vector<int>::iterator it = vect.begin(); it != vect.end(); it++)
-		std::cout << *it << " ";
+	std::cout << "Printing values" << std::endl;
+	for (std::vector<int>::const_iterator cit = A.begin(); cit != A.end(); cit++)
+		std::cout << *cit << " ";
+	std::cout << std::endl;
+	for (ft::vector<int>::const_iterator cit = Aa.begin(); cit != Aa.end(); cit++)
+		std::cout << *cit << " ";
+	std::cout << std::endl;
 	std::cout << std::endl;
 
-	std::cout << "Looping... (ft)" << std::endl;
-	for (ft::vector<int>::iterator it = ft_vect.begin(); it != ft_vect.end(); it++)
-		std::cout << *it << " ";
-	std::cout << std::endl;*/
+	std::cout << "creating vector of 12 elements" << std::endl;
+	std::vector<int> B(12, 5);
+	ft::vector<int> Bb(12, 5);
+	std::cout << std::endl;
 
+	std::cout << "Creating vector by copy" << std::endl;
+	std::vector<int> C(A);
+	ft::vector<int> Cc(Aa);
+
+	std::cout << "Printing value at index 3" << std::endl;
+	std::cout << C.at(3) << std::endl;
+	std::cout << Cc.at(3) << std::endl;
 	return 0;
 }

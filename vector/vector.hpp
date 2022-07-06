@@ -4,28 +4,26 @@
 #include <cstddef>
 #include <iterator>
 #include <memory>
+#include <stdexcept>
 
 // for tests:
 #include <iostream>
 
 #include "vector_const_iterator.hpp"
 #include "vector_iterator.hpp"
-#include "../utils.hpp"
 
 // DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
 // DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
 // DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
-//
-// USE CONSTRUCTOR LIST TO INIT IN CONSTRUCTOR [?]
 
 namespace ft
 {
 	template <typename T, typename Allocator = std::allocator<T> >
 	class vector
 	{
-		/******************************************************************************************
-		*            PUBLIC PROPERTIES                                                            *
-		******************************************************************************************/
+		/****************************
+		*     PUBLIC PROPERTIES     *
+		****************************/
 		public:
 			typedef Allocator allocator_type;
 			typedef typename Allocator::value_type value_type;
@@ -41,25 +39,17 @@ namespace ft
 			// typedef reverse_iterator
 			// typedef const_reverse_iterator
 
-			/**************************************************************************************
-			*            MEMBER FUNCTIONS                                                         *
-			**************************************************************************************/
+			/***************************
+			*     MEMBER FUNCTIONS     *
+			***************************/
 
 			explicit vector(allocator_type const& alloc = allocator_type())
-			{
-				_allocator = alloc;
-				_size = 0;
-				_capacity = 0;
-				_data = _allocator.allocate(0);
-			}
+				: _allocator(alloc), _size(0), _capacity(0), _data(_allocator.allocate(0)) {}
 
 			explicit vector(size_type n, value_type const& val = value_type(),
 					allocator_type const& alloc = allocator_type())
+				: _allocator(alloc), _size(n), _capacity(n), _data(_allocator.allocate(n))
 			{
-				_allocator = alloc;
-				_size = n;
-				_capacity = n;
-				_data = _allocator.allocate(n);
 				for (size_type i = 0; i < n; i++)
 					_allocator.construct(_data + i, val);
 			}
@@ -80,13 +70,11 @@ namespace ft
 			}*/
 
 			vector(vector const& copy)
+				: _allocator(copy._allocator), _size(copy._size), _capacity(copy._capacity),
+				_data(_allocator.allocate(_capacity))
 			{
-				_allocator = copy._allocator;
-				_size = copy._size;
-				_capacity = copy._capacity;
-				_data = _allocator.allocate(_capacity);
 				for (size_type i = 0; i < _size; i++)
-					_allocator.constructor(_data + i, *(copy + i));
+					_allocator.construct(_data + i, *(copy._data + i));
 			}
 
 			~vector(void)
@@ -114,18 +102,18 @@ namespace ft
 				return *this;
 			}
 
-			/**************************************************************************************
-			*            ITERATORS                                                                *
-			**************************************************************************************/
+			/********************
+			*     ITERATORS     *
+			********************/
 
 			iterator begin(void) { return iterator(_data); }
 			const_iterator begin(void) const { return const_iterator(_data); }
 			iterator end(void) { return iterator(_data + _size); }
 			const_iterator end(void) const { return const_iterator(_data + _size); }
 
-			/**************************************************************************************
-			*            CAPACITY                                                                 *
-			**************************************************************************************/
+			/*******************
+			*     CAPACITY     *
+			*******************/
 
 			size_type size(void) const { return _size; }
 
@@ -170,22 +158,24 @@ namespace ft
 				}
 			}
 
-			/**************************************************************************************
-			*            ELEMENT ACCESS                                                           *
-			**************************************************************************************/
+			/*************************
+			*     ELEMENT ACCESS     *
+			*************************/
 
 			reference operator[](size_type n) { return *(_data + n); }
 			const_reference operator[](size_type n) const { return *(_data + n); }
 
 			reference at(size_type n)
 			{
-				// throw exception if out of rangeA
+				if (n >= _size)
+					throw std::out_of_range("ft::vector: out of range");
 				return *(_data + n);
 			}
 
 			const_reference at(size_type n) const
 			{
-				// throw exception if out of range
+				if (n >= _size)
+					throw std::out_of_range("ft::vector: out of range");
 				return *(_data + n);
 			}
 
@@ -195,9 +185,9 @@ namespace ft
 			reference back(void) { return *(_data + _size - 1); }
 			const_reference back(void) const { return *(_data + _size - 1); }
 
-			/**************************************************************************************
-			*            MODIFIERS                                                                *
-			**************************************************************************************/
+			/********************
+			*     MODIFIERS     *
+			********************/
 
 			/*template <typename InputIterator>
 			void assign(InputIterator first, InputIterator last)
@@ -227,8 +217,6 @@ namespace ft
 
 			void pop_back(void)
 			{
-				// undefined behaviour if called on empty vector
-				// add a condition if size > 0 ??
 				_allocator.destroy(_data + _size - 1);
 				_size--;
 			}
@@ -248,17 +236,22 @@ namespace ft
 					push_back(*(temp + index));
 					index++;
 				}
+				for (size_type i = 0; i < old_size; i++)
+					_allocator.destroy(temp + i);
+				_allocator.deallocate(temp, old_size);
 				return position;
 			}
 
-			/*void insert(iterator position, size_type n, value_type const& val)
+			void insert(iterator position, size_type n, value_type const& val)
 			{
 				for (size_type i = 0; i < n; i++)
 					insert(position, val);
 			}
 
+			/*
 			template <typename InputIt>
-			void insert(iterator position, InputIt first, InputIt last)
+			void insert(iterator position, InputIt first, InputIt last,
+					typename enable_if<!is_integral<InputIt>::value>::type* = NULL)
 			{
 				pointer temp = _allocator.allocate(_size);
 				for (size_type i = 0; i < _size; i++)
@@ -293,6 +286,9 @@ namespace ft
 					push_back(*(temp + index + 1));
 					index++;
 				}
+				for (size_type i = 0; i < old_size; i++)
+					_allocator.destroy(temp + i);
+				_allocator.deallocate(temp, old_size);
 				return position;
 			}
 
@@ -308,13 +304,13 @@ namespace ft
 				return first;
 			}
 
-			void swap(vector& x)
+			/*void swap(vector& x)
 			{
 				ft::swap(_allocator, x._allocator);
 				ft::swap(_size, x._size);
 				ft::swap(_capacity, x._capacity);
 				ft::swap(_data, x._data);
-			}
+			}*/
 
 			void clear(void)
 			{
@@ -333,10 +329,10 @@ namespace ft
 		******************************************************************************************/
 
 		private:
-			pointer _data;
 			allocator_type _allocator;
 			size_type _size;
 			size_type _capacity;
+			pointer _data;
 
 			size_type _calculate_next_capacity(void) const
 			{
