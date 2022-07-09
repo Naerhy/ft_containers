@@ -5,9 +5,7 @@
 #include <iterator>
 #include <memory>
 #include <stdexcept>
-
-// for tests:
-#include <iostream>
+#include <algorithm>
 
 #include "vector_const_iterator.hpp"
 #include "vector_iterator.hpp"
@@ -15,6 +13,8 @@
 // DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
 // DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
 // DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
+
+// RESTRICT SWAP FUNCTIONS TO ONLY VECTORS OF SAME TYPE ???
 
 namespace ft
 {
@@ -97,7 +97,7 @@ namespace ft
 					}
 					_size = assign._size;
 					for (size_type i = 0; i < _size; i++)
-						_allocator.construct(_data + i, *(assign + i));
+						_allocator.construct(_data + i, *(assign._data + i));
 				}
 				return *this;
 			}
@@ -110,6 +110,10 @@ namespace ft
 			const_iterator begin(void) const { return const_iterator(_data); }
 			iterator end(void) { return iterator(_data + _size); }
 			const_iterator end(void) const { return const_iterator(_data + _size); }
+			// reverse_iterator rbegin(void);
+			// const_reverse_iterator rbegin(void) const;
+			// reverse_iterator rend(void);
+			// const_reverse_iterator rend(void) const;
 
 			/*******************
 			*     CAPACITY     *
@@ -304,13 +308,13 @@ namespace ft
 				return first;
 			}
 
-			/*void swap(vector& x)
+			void swap(vector& x)
 			{
-				ft::swap(_allocator, x._allocator);
-				ft::swap(_size, x._size);
-				ft::swap(_capacity, x._capacity);
-				ft::swap(_data, x._data);
-			}*/
+				std::swap(_allocator, x._allocator);
+				std::swap(_size, x._size);
+				std::swap(_capacity, x._capacity);
+				std::swap(_data, x._data);
+			}
 
 			void clear(void)
 			{
@@ -354,5 +358,26 @@ namespace ft
 			}
 	};
 }
+
+// template <typename T, class Alloc>
+// bool operator==(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs);
+
+// template <typename T, class Alloc>
+// bool operator!=(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs);
+
+// template <typename T, class Alloc>
+// bool operator<(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs);
+
+// template <typename T, class Alloc>
+// bool operator<=(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs);
+
+// template <typename T, class Alloc>
+// bool operator>(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs);
+
+// template <typename T, class Alloc>
+//bool operator>=(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs);
+
+template <typename T, typename Alloc>
+void swap(vector<T, Alloc>& lhs, vector<T, Alloc>& rhs) { lhs.swap(rhs); }
 
 #endif

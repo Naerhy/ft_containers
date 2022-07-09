@@ -9,6 +9,7 @@ namespace ft
 		public:
 			typedef std::random_access_iterator_tag iterator_category;
 			typedef T value_type;
+			typedef T& reference;
 			typedef T const& const_reference;
 			typedef T* pointer;
 			typedef T const* const_pointer;
@@ -87,6 +88,8 @@ namespace ft
 			{
 				return _ptr - x._ptr;
 			}
+
+			const_reference operator[](difference_type n) const { return *(_ptr + n); };
 
 		protected:
 			pointer _ptr;

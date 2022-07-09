@@ -4,12 +4,12 @@
 
 int main(void)
 {
-	std::cout << "Creating empty vector" << std::endl;
+	std::cout << "Creating empty vector (A)" << std::endl;
 	std::vector<int> A;
 	ft::vector<int> Aa;
 	std::cout << std::endl;
 
-	std::cout << "Pushing elements into vector" << std::endl;
+	std::cout << "Pushing elements into vector A" << std::endl;
 	for (int i = 0; i < 5; i++)
 	{
 		A.push_back(i * 10);
@@ -17,7 +17,7 @@ int main(void)
 	}
 	std::cout << std::endl;
 
-	std::cout << "Printing values" << std::endl;
+	std::cout << "Printing values from A" << std::endl;
 	for (std::vector<int>::const_iterator cit = A.begin(); cit != A.end(); cit++)
 		std::cout << *cit << " ";
 	std::cout << std::endl;
@@ -26,17 +26,35 @@ int main(void)
 	std::cout << std::endl;
 	std::cout << std::endl;
 
-	std::cout << "creating vector of 12 elements" << std::endl;
+	std::cout << "creating vector of 12 elements (B)" << std::endl;
 	std::vector<int> B(12, 5);
 	ft::vector<int> Bb(12, 5);
 	std::cout << std::endl;
 
-	std::cout << "Creating vector by copy" << std::endl;
+	std::cout << "Creating vector by copy (C, from A)" << std::endl;
 	std::vector<int> C(A);
 	ft::vector<int> Cc(Aa);
+	std::cout << std::endl;
 
-	std::cout << "Printing value at index 3" << std::endl;
+	std::cout << "Printing value at index 3 of vector C" << std::endl;
 	std::cout << C.at(3) << std::endl;
 	std::cout << Cc.at(3) << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "Creating vector D of size 234 and assigning B to D" << std::endl;
+	std::vector<int> D(234, 1);
+	ft::vector<int> Dd(234, 1);
+	D = B;
+	Dd = Bb;
+	std::cout << std::endl;
+
+	std::cout << "Printing values from D" << std::endl;
+	for (std::vector<int>::const_iterator cit = D.begin(); cit != D.end(); cit++)
+		std::cout << *cit << " ";
+	std::cout << std::endl;
+	for (ft::vector<int>::const_iterator cit = Dd.begin(); cit != Dd.end(); cit++)
+		std::cout << *cit << " ";
+	std::cout << std::endl;
+
 	return 0;
 }

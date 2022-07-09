@@ -9,10 +9,6 @@ namespace ft
 	class vector_iterator : public vector_const_iterator<T>
 	{
 		public:
-
-			typedef T& reference;
-			typedef T* pointer;
-
 			vector_iterator(pointer ptr) : vector_const_iterator<T>(ptr) {}
 			vector_iterator(vector_iterator const& copy) : vector_const_iterator<T>(copy) {}
 			~vector_iterator(void) {}
@@ -26,6 +22,7 @@ namespace ft
 
 			reference operator*(void) const { return *vector_const_iterator<T>::_ptr; }
 			pointer operator->(void) const { return vector_const_iterator<T>::_ptr; }
+			reference operator[](difference_type n) { return *(_ptr + n); }
 	};
 }
 
