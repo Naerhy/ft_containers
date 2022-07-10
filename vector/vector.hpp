@@ -9,6 +9,8 @@
 
 #include "vector_const_iterator.hpp"
 #include "vector_iterator.hpp"
+#include "../utils/equal.hpp"
+#include "../utils/lexicographical_compare.hpp"
 
 // DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
 // DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
@@ -230,7 +232,7 @@ namespace ft
 				pointer temp = _allocator.allocate(_size);
 				for (size_type i = 0; i < _size; i++)
 					_allocator.construct(temp + i, *(_data + i));
-				size_type index = get_iterator_index(position);
+				size_type index = _get_iterator_index(position);
 				size_type old_size = _size;
 				while (_size > index)
 					pop_back();
@@ -260,7 +262,7 @@ namespace ft
 				pointer temp = _allocator.allocate(_size);
 				for (size_type i = 0; i < _size; i++)
 					_allocator.construct(temp + i, *(_data + i));
-				size_type index = get_iterator_index(position);
+				size_type index = _get_iterator_index(position);
 				size_type old_size = _size;
 				while (_size > index)
 					pop_back();
@@ -281,7 +283,7 @@ namespace ft
 				pointer temp = _allocator.allocate(_size);
 				for (size_type i = 0; i < _size; i++)
 					_allocator.construct(temp + i, *(_data + i));
-				size_type index = get_iterator_index(position);
+				size_type index = _get_iterator_index(position);
 				size_type old_size = _size;
 				while (_size > index)
 					pop_back();
@@ -298,8 +300,8 @@ namespace ft
 
 			iterator erase(iterator first, iterator last)
 			{
-				size_type first_index = get_iterator_index(first);
-				size_type last_index = get_iterator_index(last);
+				size_type first_index = _get_iterator_index(first);
+				size_type last_index = _get_iterator_index(last);
 				while (first_index < last_index)
 				{
 					erase(first);
@@ -345,7 +347,7 @@ namespace ft
 				return _capacity * 2;
 			}
 
-			size_type get_iterator_index(iterator position)
+			size_type _get_iterator_index(iterator position)
 			{
 				iterator it = begin();
 				size_type i = 0;
@@ -357,54 +359,54 @@ namespace ft
 				return i;
 			}
 	};
+
+	/****************************************
+	*     NON-MEMBER FUNCTION OVERLOADS     *
+	****************************************/
+
+	template <typename T, typename Alloc>
+	bool operator==(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
+	{
+		typedef typename vector<T, Alloc>::const_iterator it_type;
+		if (lhs.size() == rhs.size())
+			return equal<it_type, it_type>(lhs.begin(), lhs.end(), rhs.begin());
+		return false;
+	}
+
+	template <typename T, typename Alloc>
+	bool operator!=(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	template <typename T, typename Alloc>
+	bool operator<(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
+	{
+		typedef typename vector<T, Alloc>::const_iterator it_type;
+		return lexicographical_compare<it_type, it_type>(lhs.begin(), lhs.end(),
+				rhs.begin(), rhs.end());
+	}
+
+	template <typename T, typename Alloc>
+	bool operator<=(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
+	{
+		return !(rhs < lhs);
+	}
+
+	template <typename T, typename Alloc>
+	bool operator>(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
+	{
+		return rhs < lhs;
+	}
+
+	template <typename T, typename Alloc>
+	bool operator>=(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
+	{
+		return !(lhs < rhs);
+	}
+
+	template <typename T, typename Alloc>
+	void swap(vector<T, Alloc>& lhs, vector<T, Alloc>& rhs) { lhs.swap(rhs); }
 }
-
-/****************************************
-*     NON-MEMBER FUNCTION OVERLOADS     *
-****************************************/
-
-template <typename T, class Alloc>
-bool operator==(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs);
-{
-	typedef vector<T, Alloc>::const_iterator it_type;
-	if (lhs.size() == rhs.size())
-		return equal<it_type, it_type>(lhs.begin(), lhs.end(), rhs.begin());
-	return false;
-}
-
-template <typename T, class Alloc>
-bool operator!=(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
-{
-	return !(lhs == rhs);
-}
-
-template <typename T, class Alloc>
-bool operator<(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
-{
-	typedef vector<T, Alloc>::const_iterator it_type;
-	return lexicographical_compare<it_type, it_type>(lhs.begin(), lhs.end(),
-			rhs.begin(), rhs.end());
-}
-
-template <typename T, class Alloc>
-bool operator<=(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
-{
-	return !(rhs < lhs);
-}
-
-template <typename T, class Alloc>
-bool operator>(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
-{
-	return rhs < lhs;
-}
-
-template <typename T, class Alloc>
-bool operator>=(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
-{
-	return !(lhs < rhs);
-}
-
-template <typename T, typename Alloc>
-void swap(vector<T, Alloc>& lhs, vector<T, Alloc>& rhs) { lhs.swap(rhs); }
 
 #endif

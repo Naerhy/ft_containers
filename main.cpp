@@ -56,5 +56,50 @@ int main(void)
 		std::cout << *cit << " ";
 	std::cout << std::endl;
 
+	std::cout << std::endl;
+
+	std::cout << "Testing operators on vectors" << std::endl;
+	std::cout << "A == B : " << (A == B) << " | " << (Aa == Bb) << std::endl;
+	std::cout << "A != B : " << (A != B) << " | " << (Aa != Bb) << std::endl;
+	std::cout << "A < B : " << (A < B) << " | " << (Aa < Bb) << std::endl;
+	std::cout << "A <= B : " << (A <= B) << " | " << (Aa <= Bb) << std::endl;
+	std::cout << "A > B : " << (A > B) << " | " << (Aa > Bb) << std::endl;
+	std::cout << "A >= B : " << (A >= B) << " | " << (Aa >= Bb) << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << "Swapping A with B" << std::endl;
+	std::cout << "Printing values from A: " << std::endl;
+	for (std::vector<int>::const_iterator cit = A.begin(); cit != A.end(); cit++)
+		std::cout << *cit << " ";
+	std::cout << std::endl;
+	for (ft::vector<int>::const_iterator cit = Aa.begin(); cit != Aa.end(); cit++)
+		std::cout << *cit << " ";
+	std::cout << std::endl;
+	std::cout << "Printing values from B: " << std::endl;
+	for (std::vector<int>::const_iterator cit = B.begin(); cit != B.end(); cit++)
+		std::cout << *cit << " ";
+	std::cout << std::endl;
+	for (ft::vector<int>::const_iterator cit = Bb.begin(); cit != Bb.end(); cit++)
+		std::cout << *cit << " ";
+	std::cout << std::endl;
+	std::cout << "Swapping..." << std::endl;
+	swap(A, B);
+	swap(Aa, Bb);
+	std::cout << "Printing values from A: " << std::endl;
+	for (std::vector<int>::const_iterator cit = A.begin(); cit != A.end(); cit++)
+		std::cout << *cit << " ";
+	std::cout << std::endl;
+	for (ft::vector<int>::const_iterator cit = Aa.begin(); cit != Aa.end(); cit++)
+		std::cout << *cit << " ";
+	std::cout << std::endl;
+	std::cout << "Printing values from B: " << std::endl;
+	for (std::vector<int>::const_iterator cit = B.begin(); cit != B.end(); cit++)
+		std::cout << *cit << " ";
+	std::cout << std::endl;
+	for (ft::vector<int>::const_iterator cit = Bb.begin(); cit != Bb.end(); cit++)
+		std::cout << *cit << " ";
+	std::cout << std::endl;
+
 	return 0;
 }
