@@ -9,15 +9,13 @@ namespace ft
 		public:
 			typedef std::random_access_iterator_tag iterator_category;
 			typedef T value_type;
-			typedef T& reference;
-			typedef T const& const_reference;
-			typedef T* pointer;
-			typedef T const* const_pointer;
+			typedef T const& reference;
+			typedef T const* pointer;
 			typedef std::ptrdiff_t difference_type;
 
-			vector_const_iterator(pointer ptr) : _ptr(ptr) {}
+			vector_const_iterator(T* ptr) : _ptr(ptr) {}
 			vector_const_iterator(vector_const_iterator const& copy) : _ptr(copy._ptr) {}
-			~vector_const_iterator(void) {}
+			virtual ~vector_const_iterator(void) {}
 
 			vector_const_iterator& operator=(vector_const_iterator const& assign)
 			{
@@ -26,8 +24,9 @@ namespace ft
 				return *this;
 			}
 
-			const_reference operator*(void) const { return *_ptr; }
-			const_pointer operator->(void) const { return _ptr; }
+			reference operator*(void) const { return *_ptr; }
+			pointer operator->(void) const { return _ptr; }
+			reference operator[](difference_type n) const { return *(_ptr + n); }
 
 			bool operator==(vector_const_iterator const& x) const { return _ptr == x._ptr; }
 			bool operator!=(vector_const_iterator const& x) const { return _ptr != x._ptr; }
@@ -89,10 +88,8 @@ namespace ft
 				return _ptr - x._ptr;
 			}
 
-			const_reference operator[](difference_type n) const { return *(_ptr + n); };
-
 		protected:
-			pointer _ptr;
+			T* _ptr;
 	};
 }
 

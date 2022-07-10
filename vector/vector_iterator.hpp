@@ -9,9 +9,11 @@ namespace ft
 	class vector_iterator : public vector_const_iterator<T>
 	{
 		public:
-			vector_iterator(pointer ptr) : vector_const_iterator<T>(ptr) {}
+			typedef typename vector_const_iterator<T>::difference_type difference_type;
+
+			vector_iterator(T* ptr) : vector_const_iterator<T>(ptr) {}
 			vector_iterator(vector_iterator const& copy) : vector_const_iterator<T>(copy) {}
-			~vector_iterator(void) {}
+			virtual ~vector_iterator(void) {}
 
 			vector_iterator& operator=(vector_iterator const& assign)
 			{
@@ -20,9 +22,9 @@ namespace ft
 				return *this;
 			}
 
-			reference operator*(void) const { return *vector_const_iterator<T>::_ptr; }
-			pointer operator->(void) const { return vector_const_iterator<T>::_ptr; }
-			reference operator[](difference_type n) { return *(_ptr + n); }
+			T& operator*(void) { return *vector_const_iterator<T>::_ptr; }
+			T* operator->(void) { return vector_const_iterator<T>::_ptr; }
+			T& operator[](difference_type n) { return *(this->_ptr + n); }
 	};
 }
 
