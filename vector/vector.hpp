@@ -322,15 +322,15 @@ namespace ft
 					pop_back();
 			}
 
-			/**************************************************************************************
-			*            ALLOCATOR                                                                *
-			**************************************************************************************/
+			/********************
+			*     ALLOCATOR     *
+			********************/
 
 			allocator_type get_allocator(void) const { return _allocator; }
 
-		/******************************************************************************************
-		*            PRIVATE PROPERTIES                                                           *
-		******************************************************************************************/
+		/**************************
+		*     PRIVATE MEMBERS     *
+		**************************/
 
 		private:
 			allocator_type _allocator;
@@ -359,23 +359,50 @@ namespace ft
 	};
 }
 
-// template <typename T, class Alloc>
-// bool operator==(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs);
+/****************************************
+*     NON-MEMBER FUNCTION OVERLOADS     *
+****************************************/
 
-// template <typename T, class Alloc>
-// bool operator!=(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs);
+template <typename T, class Alloc>
+bool operator==(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs);
+{
+	typedef vector<T, Alloc>::const_iterator it_type;
+	if (lhs.size() == rhs.size())
+		return equal<it_type, it_type>(lhs.begin(), lhs.end(), rhs.begin());
+	return false;
+}
 
-// template <typename T, class Alloc>
-// bool operator<(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs);
+template <typename T, class Alloc>
+bool operator!=(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
+{
+	return !(lhs == rhs);
+}
 
-// template <typename T, class Alloc>
-// bool operator<=(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs);
+template <typename T, class Alloc>
+bool operator<(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
+{
+	typedef vector<T, Alloc>::const_iterator it_type;
+	return lexicographical_compare<it_type, it_type>(lhs.begin(), lhs.end(),
+			rhs.begin(), rhs.end());
+}
 
-// template <typename T, class Alloc>
-// bool operator>(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs);
+template <typename T, class Alloc>
+bool operator<=(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
+{
+	return !(rhs < lhs);
+}
 
-// template <typename T, class Alloc>
-//bool operator>=(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs);
+template <typename T, class Alloc>
+bool operator>(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
+{
+	return rhs < lhs;
+}
+
+template <typename T, class Alloc>
+bool operator>=(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
+{
+	return !(lhs < rhs);
+}
 
 template <typename T, typename Alloc>
 void swap(vector<T, Alloc>& lhs, vector<T, Alloc>& rhs) { lhs.swap(rhs); }
