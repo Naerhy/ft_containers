@@ -9,6 +9,8 @@
 
 #include "vector_const_iterator.hpp"
 #include "vector_iterator.hpp"
+#include "../utils/enable_if.hpp"
+#include "../utils/is_integral.hpp"
 #include "../utils/equal.hpp"
 #include "../utils/lexicographical_compare.hpp"
 
@@ -56,9 +58,9 @@ namespace ft
 					_allocator.construct(_data + i, val);
 			}
 
-			/*template <typename InputIterator>
-			vector(InputIterator first, InputIterator last,
-					allocator_type const& alloc = allocator_type())
+			template <typename InputIt>
+			vector(InputIt first, InputIt last, allocator_type const& alloc = allocator_type(),
+					typename enable_if<!is_integral<InputIt>::value>::type* = NULL)
 			{
 				_allocator = alloc;
 				_size = 0;
@@ -69,7 +71,7 @@ namespace ft
 					push_back(*first);
 					first++;
 				}
-			}*/
+			}
 
 			vector(vector const& copy)
 				: _allocator(copy._allocator), _size(copy._size), _capacity(copy._capacity),
@@ -195,8 +197,9 @@ namespace ft
 			*     MODIFIERS     *
 			********************/
 
-			/*template <typename InputIterator>
-			void assign(InputIterator first, InputIterator last)
+			template <typename InputIt>
+			void assign(InputIt first, InputIt last,
+					typename enable_if<!is_integral<InputIt>::value>::type* = NULL)
 			{
 				clear();
 				while (first != last)
@@ -204,7 +207,7 @@ namespace ft
 					push_back(*first);
 					first++;
 				}
-			}*/
+			}
 
 			void assign(size_type n, value_type const& val)
 			{
@@ -254,7 +257,6 @@ namespace ft
 					insert(position, val);
 			}
 
-			/*
 			template <typename InputIt>
 			void insert(iterator position, InputIt first, InputIt last,
 					typename enable_if<!is_integral<InputIt>::value>::type* = NULL)
@@ -276,7 +278,7 @@ namespace ft
 					push_back(*(temp + index));
 					index++;
 				}
-			}*/
+			}
 
 			iterator erase(iterator position)
 			{

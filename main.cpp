@@ -101,5 +101,19 @@ int main(void)
 		std::cout << *cit << " ";
 	std::cout << std::endl;
 
+	std::cout << std::endl;
+
+	std::cout << "Creating object E from range constructor (using B iterators)" << std::endl;
+	std::vector<int> E(B.begin(), B.end());
+	ft::vector<int> Ee(Bb.begin(), Bb.end());
+	std::cout << "Printing values from E: " << std::endl;
+	for (std::vector<int>::const_iterator cit = E.begin(); cit != E.end(); cit++)
+		std::cout << *cit << " ";
+	std::cout << std::endl;
+	for (ft::vector<int>::const_iterator cit = Ee.begin(); cit != Ee.end(); cit++)
+		std::cout << *cit << " ";
+	std::cout << std::endl;
+
+
 	return 0;
 }
