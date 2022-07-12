@@ -114,6 +114,5 @@ int main(void)
 		std::cout << *cit << " ";
 	std::cout << std::endl;
 
-
 	return 0;
 }

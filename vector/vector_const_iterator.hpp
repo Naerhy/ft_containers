@@ -1,6 +1,9 @@
 #ifndef __VECTOR_CONST_ITERATOR_HPP__
 #define __VECTOR_CONST_ITERATOR_HPP__
 
+#include <iterator>
+#include <cstddef>
+
 namespace ft
 {
 	template <typename T>
@@ -13,7 +16,8 @@ namespace ft
 			typedef T const* pointer;
 			typedef std::ptrdiff_t difference_type;
 
-			vector_const_iterator(T* ptr) : _ptr(ptr) {}
+			vector_const_iterator(void) : _ptr(NULL) {}
+			explicit vector_const_iterator(pointer ptr) : _ptr(ptr) {}
 			vector_const_iterator(vector_const_iterator const& copy) : _ptr(copy._ptr) {}
 			virtual ~vector_const_iterator(void) {}
 
@@ -73,12 +77,18 @@ namespace ft
 				return *this;
 			}
 
-			vector_const_iterator operator+(difference_type i)
+			vector_const_iterator operator+(difference_type i) const
 			{
 				return vector_const_iterator(_ptr + i);
 			}
 
-			vector_const_iterator operator-(difference_type i)
+			friend vector_const_iterator operator+(difference_type i,
+					vector_const_iterator const& x)
+			{
+				return vector_const_iterator(x + i);
+			}
+
+			vector_const_iterator operator-(difference_type i) const
 			{
 				return vector_const_iterator(_ptr - i);
 			}
@@ -88,8 +98,8 @@ namespace ft
 				return _ptr - x._ptr;
 			}
 
-		protected:
-			T* _ptr;
+		private:
+			pointer _ptr;
 	};
 }
 
