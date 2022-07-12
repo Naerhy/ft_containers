@@ -9,7 +9,7 @@
 
 #include "vector_iterator.hpp"
 #include "vector_const_iterator.hpp"
-// #include "../utils/reverse_iterator.hpp"
+#include "../utils/reverse_iterator.hpp"
 #include "../utils/enable_if.hpp"
 #include "../utils/is_integral.hpp"
 #include "../utils/equal.hpp"
@@ -42,7 +42,7 @@ namespace ft
 			typedef vector_iterator<T> iterator;
 			typedef vector_const_iterator<T> const_iterator;
 			// typedef reverse_iterator
-			// typedef reverse_iterator<const_iterator> const_reverse_iterator;
+			typedef reverse_iterator<const_iterator> const_reverse_iterator;
 
 			/***************************
 			*     MEMBER FUNCTIONS     *
@@ -116,7 +116,7 @@ namespace ft
 			iterator end(void) { return iterator(_data + _size); }
 			const_iterator end(void) const { return const_iterator(_data + _size); }
 			// reverse_iterator rbegin(void);
-			// const_reverse_iterator rbegin(void) const { return const_reverse_iterator(end()); }
+			const_reverse_iterator rbegin(void) const { return const_reverse_iterator(end()); }
 			// reverse_iterator rend(void);
 			// const_reverse_iterator rend(void) const;
 

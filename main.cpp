@@ -114,5 +114,25 @@ int main(void)
 		std::cout << *cit << " ";
 	std::cout << std::endl;
 
+	std::vector<int>::const_reverse_iterator rcit = B.rbegin();
+	std::cout << *rcit << std::endl;
+	ft::vector<int>::const_reverse_iterator rcitt = Bb.rbegin();
+	std::cout << *rcitt << std::endl;
+	rcit++;
+	rcitt++;
+	std::cout << *rcit << std::endl;
+	std::cout << *rcitt << std::endl;
+	rcit--;
+	rcitt--;
+	std::cout << *rcit << std::endl;
+	std::cout << *rcitt << std::endl;
+	rcit += 2;
+	rcitt += 2;
+	std::cout << *rcit << std::endl;
+	std::cout << *rcitt << std::endl;
+	std::cout << *(rcit - 2) << std::endl;
+	std::cout << *(rcitt - 2) << std::endl;
+
+
 	return 0;
 }

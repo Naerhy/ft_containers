@@ -19,12 +19,17 @@ namespace ft
 			reverse_iterator(void) : _base(iterator_type()) {}
 			explicit reverse_iterator(iterator_type it) : _base(it) {}
 
-			template <typename U>
-			reverse_iterator(reverse_iterator<U> const& rev_it) : _base(rev_it.base()) {}
+			// template <typename U>
+			// reverse_iterator(reverse_iterator<U> const& rev_it) : _base(rev_it.base()) {}
 
 			iterator_type base(void) const { return _base; }
 
-			reference operator*(void) const { return *(_base - 1); }
+			reference operator*(void) const
+			{
+				Iter temp = _base;
+				return *--temp;
+			}
+
 			pointer operator->(void) const { return &(operator*()); }
 			reference operator[](difference_type n) const { return *(_base - 1 - n); }
 
@@ -34,13 +39,48 @@ namespace ft
 				return *this;
 			}
 
+			reverse_iterator& operator--(void)
+			{
+				_base++;
+				return *this;
+			}
+
 			reverse_iterator operator++(int)
 			{
-				reverse_iterator temp(*this);
+				reverse_iterator temp = *this;
 				++(*this);
 				return temp;
 			}
-		
+
+			reverse_iterator operator--(int)
+			{
+				reverse_iterator temp = *this;
+				--(*this);
+				return temp;
+			}
+
+			reverse_iterator operator+(difference_type n) const
+			{
+				return reverse_iterator(base() - n);
+			}
+
+			reverse_iterator operator-(difference_type n) const
+			{
+				return reverse_iterator(base() + n);
+			}
+
+			reverse_iterator& operator+=(difference_type n)
+			{
+				_base -= n;
+				return *this;
+			}
+
+			reverse_iterator& operator-=(difference_type n)
+			{
+				_base += n;
+				return *this;
+			}
+
 		private:
 			iterator_type _base;
 	};
