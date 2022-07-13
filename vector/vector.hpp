@@ -26,9 +26,11 @@ namespace ft
 	template <typename T, typename Allocator = std::allocator<T> >
 	class vector
 	{
+
 		/****************************
 		*     PUBLIC PROPERTIES     *
 		****************************/
+
 		public:
 			typedef Allocator allocator_type;
 			typedef typename Allocator::value_type value_type;
