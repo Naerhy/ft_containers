@@ -22,6 +22,15 @@ namespace ft
 			template <typename U>
 			reverse_iterator(reverse_iterator<U> const& rev_it) : _base(rev_it.base()) {}
 
+			template <typename U>
+			reverse_iterator& operator=(reverse_iterator<U> const& assign)
+			{
+				if (this != assign)
+					_base = assign._base;
+				return *this;
+
+			}
+
 			iterator_type base(void) const { return _base; }
 
 			reference operator*(void) const
