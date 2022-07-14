@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <stack>
 #include "vector/vector.hpp"
+#include "stack/stack.hpp"
 
 int main(void)
 {
@@ -133,6 +135,21 @@ int main(void)
 	std::cout << *(rcit - 2) << std::endl;
 	std::cout << *(rcitt - 2) << std::endl;
 
+	std::cout << std::endl;
+
+	std::cout << "Creating stack G with std/ft vector" << std::endl;
+	std::stack<int> G;
+	ft::stack<int> Gg;
+
+	std::cout << "Push number 123 into stacks" << std::endl;
+	G.push(123);
+	Gg.push(123);
+
+	std::cout << "Print top element from G:" << std::endl;
+	std::cout << G.top() << std::endl;
+	std::cout << Gg.top() << std::endl;
+
+	std::cout << std::endl;
 
 	return 0;
 }
