@@ -40,7 +40,6 @@ namespace ft
 			typedef typename Allocator::const_pointer const_pointer;
 			typedef typename Allocator::size_type size_type;
 			typedef typename Allocator::difference_type difference_type;
-
 			typedef vector_iterator<T> iterator;
 			typedef vector_const_iterator<T> const_iterator;
 			// typedef reverse_iterator
