@@ -3,6 +3,9 @@
 #include <stack>
 #include "vector/vector.hpp"
 #include "stack/stack.hpp"
+#include "map/map.hpp"
+
+#include "utils/make_pair.hpp"
 
 int main(void)
 {
@@ -150,6 +153,24 @@ int main(void)
 	std::cout << Gg.top() << std::endl;
 
 	std::cout << std::endl;
+
+
+
+
+
+
+	ft::map<int, float> Tt;
+	Tt.insert(ft::make_pair(12, 234.4));
+	Tt.insert(ft::make_pair(1, 4895.3));
+	Tt.insert(ft::make_pair(5, 34.1));
+	Tt.insert(ft::make_pair(59673, 39457.9));
+	Tt.printInOrder();
+	Tt.remove(5);
+	Tt.remove(12);
+	Tt.remove(1);
+	Tt.remove(59673);
+	std::cout << "===" << std::endl;
+	Tt.printInOrder();
 
 	return 0;
 }
