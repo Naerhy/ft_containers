@@ -43,7 +43,7 @@ namespace ft
 			typedef vector_iterator<T> iterator;
 			typedef vector_const_iterator<T> const_iterator;
 			// typedef reverse_iterator
-			typedef reverse_iterator<const_iterator> const_reverse_iterator;
+			// typedef reverse_iterator<const_iterator> const_reverse_iterator;
 
 			/***************************
 			*     MEMBER FUNCTIONS     *

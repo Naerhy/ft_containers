@@ -171,6 +171,13 @@ int main(void)
 	Tt.remove(59673);
 	std::cout << "===" << std::endl;
 	Tt.printInOrder();
+	ft::map<int, float>::key_compare comp = Tt.key_comp();
+	std::cout << comp(ft::make_pair(4, 40.3).first, ft::make_pair(3, 30.4).first) << std::endl;
+	std::cout << comp(ft::make_pair(3, 30.4).first, ft::make_pair(4, 40.3).first) << std::endl;
+
+	ft::map<int, float>::value_compare vcomp = Tt.value_comp();
+	std::cout << vcomp(ft::make_pair(4, 40.3), ft::make_pair(3, 30.4)) << std::endl;
+	std::cout << vcomp(ft::make_pair(3, 30.4), ft::make_pair(4, 40.3)) << std::endl;
 
 	return 0;
 }
