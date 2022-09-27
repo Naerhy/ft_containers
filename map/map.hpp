@@ -3,8 +3,11 @@
 
 #include <memory>
 #include <functional>
-#include "../utils/pair.hpp"
-#include "../utils/make_pair.hpp"
+#include "../../utils/pair.hpp"
+#include "../../utils/make_pair.hpp"
+#include "Node.hpp"
+#include "BST.hpp"
+#include "map_iterator.hpp"
 
 namespace ft
 {
@@ -12,36 +15,26 @@ namespace ft
 			typename Allocator = std::allocator<pair<Key const, T> > >
 	class map
 	{
-		public:
-			typedef Key key_type;
-			typedef T mapped_type;
-			typedef pair<key_type const, mapped_type> value_type;
-			typedef Compare key_compare;
-
-		private:
-			struct Node
-			{
-				value_type value;
-				Node* left;
-				Node* right;
-
-				Node(value_type value) : value(value), left(NULL), right(NULL) {}
-			};
-
 		/****************************
 		*     PUBLIC PROPERTIES     *
 		****************************/
 
 		public:
-			typedef typename Allocator::template rebind<Node>::other allocator_type;
+			typedef Key key_type;
+			typedef T mapped_type;
+			typedef pair<key_type const, mapped_type> value_type;
+			typedef Compare key_compare;
+			typedef typename Allocator::template rebind<Node<value_type> >::other allocator_type;
 			typedef typename Allocator::reference reference;
 			typedef typename Allocator::const_reference const_reference;
 			typedef typename Allocator::pointer pointer;
 			typedef typename Allocator::const_pointer const_pointer;
-			// typedef iterator
+
+			typedef map_iterator<Node<value_type>, value_type, allocator_type> iterator;
 			// typedef const_iterator
 			// typedef reverse_iterator
 			// typedef const_reverse_iterator
+
 			typedef typename Allocator::size_type size_type;
 			typedef typename Allocator::difference_type difference_type;
 
@@ -66,7 +59,7 @@ namespace ft
 
 			explicit map(key_compare const& comp = key_compare(),
 					allocator_type const& alloc = allocator_type())
-				: _allocator(alloc), _comp(comp), _data(NULL), _size(0) {}
+				: _allocator(alloc), _comp(comp), _bst(_allocator), _size(0) {}
 
 			/*template <typename InputIt>
 			map(InputIt first, InputIt last, key_compare const& comp = key_compare(),
@@ -74,21 +67,16 @@ namespace ft
 
 			// map(map const& x) {}
 
-			~map(void)
-			{
-				_destroy(_data);
-			}
-
 			// map& operator=(map const& x) {}
 
 			/********************
 			*     ITERATORS     *
 			********************/
 
-			/*iterator begin(void) {}
-			const_iterator begin(void) const {}
-			iterator end(void) {}
-			const_iterator end(void) const {}
+			iterator begin(void) { return iterator(&_bst, _bst.minimum(_bst.getRoot())); }
+			// const_iterator begin(void) const {}
+			// iterator end(void) { return iterator(&_bst, _bst.maximum()); }
+			/*const_iterator end(void) const {}
 			reverse_iterator rbegin(void) {}
 			const_reverse_iterator rbegin(void) const {}
 			reverse_iterator rend(void) {}
@@ -113,27 +101,133 @@ namespace ft
 			*     ELEMENT ACCESS     *
 			*************************/
 
-			// mapped_type& operator[](key_type const& k) {}
+			mapped_type& operator[](key_type const& k)
+			{
+				return insert(make_pair(k, T())).first->second;
+			}
 
 			/********************
 			*     MODIFIERS     *
 			********************/
 
-			// CUSTOM FUNCTIONS TO TEST BINARY TREE IN MAP CLASS:
-			void insert(value_type value)
+			pair<iterator, bool> insert(value_type const& val)
 			{
-				if (_data)
-					_insert(value, _data);
+				Node<value_type>* s = _bst.search(val.first);
+				if (s == s->parent)
+				{
+					_bst.insert(val);
+					_size++;
+					return pair<iterator, bool>(iterator(&_bst, _bst.search(val.first)), true);
+				}
+				else
+					return pair<iterator, bool>(iterator(&_bst, s), false);
+			}
+
+			iterator insert(iterator position, value_type const& val)
+			{
+				return insert(val).first;
+			}
+
+			// template <typename InputIt>
+			// void insert(InputIt first, InputIt last) {}
+
+			// void erase(iterator position) {}
+
+			size_type erase(key_type const& k)
+			{
+				Node<value_type>* s = _bst.search(k);
+				if (s == s->parent)
+					return 0;
 				else
 				{
-					_data = _allocator.allocate(1);
-					_allocator.construct(_data, Node(value));
+					_bst.remove(k);
+					_size--;
+					return 1;
 				}
 			}
 
-			void remove(key_type k) { _data = _remove(k, _data); }
+			void erase(iterator first, iterator last)
+			{
+				while (first != last)
+				{
+					_bst.remove(first->first);
+					first++;
+				}
+			}
 
-			void printInOrder(void) { _printInOrder(_data); }
+			void clear(void)
+			{
+				_bst.destroy();
+				_size = 0;
+			}
+
+			// custom function:
+			// custom function:
+			// custom function:
+			void makeTest(void)
+			{
+				_bst.insert(make_pair(1, 1.1));
+				_bst.insert(make_pair(5, 5.5));
+				_bst.insert(make_pair(-3, -3.3));
+				_bst.insert(make_pair(-6, -6.6));
+				_bst.insert(make_pair(6, 6.6));
+				_bst.insert(make_pair(4, 4.4));
+				_bst.insert(make_pair(9, 9.9));
+				_bst.printInOrder();
+				std::cout << "==========" << std::endl;
+				_bst.remove(-3);
+				_bst.remove(5);
+				_bst.remove(1);
+				_bst.printInOrder();
+				std::cout << "==========" << std::endl;
+				Node<value_type>* root = _bst.getRoot();
+				Node<value_type>* x;
+
+				std::cout << "root = " << root->data.first << " | " << root->data.second << std::endl;
+
+				x = _bst.minimum(root);
+				std::cout << "minimum = " << x->data.first << " - " << x->data.second << std::endl;
+
+				x = _bst.successor(x);
+				std::cout << "successor = " << x->data.first << " - " << x->data.second << std::endl;
+				x = _bst.successor(x);
+				std::cout << "successor = " << x->data.first << " - " << x->data.second << std::endl;
+				x = _bst.successor(x);
+				std::cout << "successor = " << x->data.first << " - " << x->data.second << std::endl;
+				x = _bst.successor(x);
+				std::cout << "successor = " << x->data.first << " - " << x->data.second << std::endl;
+				x = _bst.successor(x);
+				std::cout << "successor = " << x->data.first << " - " << x->data.second << std::endl;
+				x = _bst.successor(x);
+				std::cout << "successor = " << x->data.first << " - " << x->data.second << std::endl;
+				x = _bst.successor(x);
+				std::cout << "successor = " << x->data.first << " - " << x->data.second << std::endl;
+
+				x = _bst.maximum(root);
+				x = _bst.predecessor(x);
+				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
+				x = _bst.predecessor(x);
+				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
+				x = _bst.predecessor(x);
+				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
+				x = _bst.predecessor(x);
+				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
+				x = _bst.predecessor(x);
+				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
+				x = _bst.predecessor(x);
+				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
+				x = _bst.predecessor(x);
+				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
+				x = _bst.predecessor(x);
+				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
+				x = _bst.predecessor(x);
+				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
+			}
+
+			// DELETE AFTER TESTS
+			// DELETE AFTER TESTS
+			// DELETE AFTER TESTS
+			void printTree(void) { _bst.printInOrder(); }
 
 			/********************
 			*     OBSERVERS     *
@@ -168,106 +262,9 @@ namespace ft
 		**************************/
 
 		private:
-			void _insert(value_type value, Node* node)
-			{
-				if (value.first < node->value.first)
-				{
-					if (node->left)
-						_insert(value, node->left);
-					else
-					{
-						node->left = _allocator.allocate(1);
-						_allocator.construct(node->left, Node(value));
-					}
-				}
-				if (value.first > node->value.first)
-				{
-					if (node->right)
-						_insert(value, node->right);
-					else
-					{
-						node->right = _allocator.allocate(1);
-						_allocator.construct(node->right, Node(value));
-					}
-				}
-			}
-
-			Node* _remove(key_type k, Node* node)
-			{
-				if (!node)
-					return NULL;
-				else if (k < node->value.first)
-					node->left = _remove(k, node->left);
-				else if (k > node->value.first)
-					node->right = _remove(k, node->right);
-				else
-				{
-					if (!node->left && !node->right)
-					{
-						_allocator.destroy(node);
-						_allocator.deallocate(node, 1);
-						node = NULL;
-					}
-					else if (!node->left)
-					{
-						Node* temp = node;
-						node = node->right;
-						_allocator.destroy(temp);
-						_allocator.deallocate(temp, 1);
-					}
-					else if (!node->right)
-					{
-						Node* temp = node;
-						node = node->left;
-						_allocator.destroy(temp);
-						_allocator.deallocate(temp, 1);
-					}
-					else
-					{
-						Node* min = _minimum(node->right);
-						Node* temp = node;
-						node = _allocator.allocate(1);
-						_allocator.construct(node, min->value);
-						node->left = temp->left;
-						node->right = _remove(min->value.first, temp->right);
-						_allocator.destroy(temp);
-						_allocator.deallocate(temp, 1);
-					}
-				}
-				return node;
-			}
-
-			Node* _minimum(Node* node)
-			{
-				while (node->left)
-					node = node->left;
-				return node;
-			}
-
-			void _printInOrder(Node* node)
-			{
-				if (node)
-				{
-					_printInOrder(node->left);
-					std::cout << node->value.first << " - " << node->value.second << std::endl;
-					_printInOrder(node->right);
-				}
-			}
-
-			void _destroy(Node* node)
-			{
-				if (node)
-				{
-					_destroy(node->left);
-					_destroy(node->right);
-					_allocator.destroy(node);
-					_allocator.deallocate(node, 1);
-				}
-			}
-
 			allocator_type _allocator;
 			key_compare _comp;
-			Node* _data;
+			BST<value_type, allocator_type> _bst;
 			size_type _size;
 	};
 }

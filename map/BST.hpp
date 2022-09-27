@@ -28,7 +28,7 @@ namespace ft
 
 			~BST(void)
 			{
-				_destroy(_root);
+				destroy();
 				_allocator.destroy(_nil);
 				_allocator.deallocate(_nil, 1);
 			}
@@ -48,6 +48,11 @@ namespace ft
 			node_type* search(key_type key) { return _search(_root, key); }
 
 			void printInOrder(void) { _printInOrder(_root); }
+
+			void destroy(void) {
+				_destroy(_root);
+				_root = _nil;
+			}
 
 			node_type* minimum(node_type* node)
 			{
