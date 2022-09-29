@@ -3,8 +3,8 @@
 
 #include <memory>
 #include <functional>
-#include "../../utils/pair.hpp"
-#include "../../utils/make_pair.hpp"
+#include "../utils/pair.hpp"
+#include "../utils/make_pair.hpp"
 #include "Node.hpp"
 #include "BST.hpp"
 #include "map_iterator.hpp"
@@ -75,7 +75,11 @@ namespace ft
 
 			iterator begin(void) { return iterator(&_bst, _bst.minimum(_bst.getRoot())); }
 			// const_iterator begin(void) const {}
-			// iterator end(void) { return iterator(&_bst, _bst.maximum()); }
+			iterator end(void)
+			{
+				return iterator(&_bst, _bst.successor(_bst.maximum(_bst.getRoot())));
+			}
+
 			/*const_iterator end(void) const {}
 			reverse_iterator rbegin(void) {}
 			const_reverse_iterator rbegin(void) const {}
@@ -228,6 +232,17 @@ namespace ft
 			// DELETE AFTER TESTS
 			// DELETE AFTER TESTS
 			void printTree(void) { _bst.printInOrder(); }
+
+			// DELETE AFTER TESTS
+			// DELETE AFTER TESTS
+			// DELETE AFTER TESTS
+			void printMinMax(void)
+			{
+				Node<value_type>* min = _bst.minimum(_bst.getRoot());
+				Node<value_type>* max = _bst.maximum(_bst.getRoot());
+				std::cout << min->data.first << " - " << min->data.second << " || "
+					<< max->data.first << " - " << max->data.second << std::endl;
+			}
 
 			/********************
 			*     OBSERVERS     *

@@ -95,6 +95,7 @@ namespace ft
 			}
 
 			node_type* getRoot(void) { return _root; }
+			node_type* getNil(void) { return _nil; }
 
 		private:
 			void _insert(node_type* new_node, node_type* node)

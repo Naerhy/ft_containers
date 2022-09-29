@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "map.hpp"
-#include "../../utils/make_pair.hpp"
+#include "../utils/make_pair.hpp"
 
 /*int main(void)
 {
@@ -54,5 +54,40 @@ int main(void)
 	std::cout << (it == itt) << std::endl;
 
 	std::cout << "[] = " << C[5] << std::endl;
+
+	std::cout << "iterator | begin > end" << std::endl;
+	ft::map<int, float>::iterator ita = C.begin();
+	while (ita != C.end())
+	{
+		std::cout << "ita = " << ita->first << " - " << ita->second << std::endl;
+		ita++;
+	}
+
+	ft::map<int, float> D;
+	D.insert(ft::make_pair(45, 45.45));
+	D.printMinMax();
+
+	ft::map<int, float>::iterator itb = C.begin();
+	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
+	itb--;
+	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
+	itb++;
+	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
+	itb++;
+	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
+	itb++;
+	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
+	itb++;
+	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
+	itb++;
+	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
+	itb++;
+	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
+	itb++;
+	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
+	itb--;
+	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
+	itb--;
+	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
 	return 0;
 }

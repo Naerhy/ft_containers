@@ -16,9 +16,16 @@ namespace ft
 			typedef N node_type;
 			typedef V value_type;
 
-			map_iterator(void) : _current(NULL) {}
-			explicit map_iterator(tree_type* tree, node_type* node) : _tree(tree), _current(node) {}
-			map_iterator(map_iterator const& copy) : _tree(copy._tree), _current(copy._current) {}
+			enum IndexMoves { INACTIVE, FORWARD, BACKWARD };
+
+			map_iterator(void) : _tree(NULL), _current(NULL), _lastMove(INACTIVE) {}
+
+			explicit map_iterator(tree_type* tree, node_type* node)
+				: _tree(tree), _current(node), _lastMove(INACTIVE) {}
+
+			map_iterator(map_iterator const& copy)
+				: _tree(copy._tree), _current(copy._current), _lastMove(copy._lastMove) {}
+
 			~map_iterator(void) {}
 
 			map_iterator& operator=(map_iterator const& assign)
@@ -27,6 +34,7 @@ namespace ft
 				{
 					_tree = assign._tree;
 					_current = assign._current;
+					_lastMove = assign._lastMove;
 				}
 				return *this;
 			}
@@ -43,7 +51,13 @@ namespace ft
 
 			map_iterator& operator++(void)
 			{
-				_current = _tree->successor(_current);
+				if (_current == _tree->getNil()
+						&& _tree->minimum(_tree->getRoot()) != _tree->getNil()
+						&& _lastMove == BACKWARD)
+					_current = _tree->minimum(_tree->getRoot());
+				else
+					_current = _tree->successor(_current);
+				_lastMove = FORWARD;
 				return *this;
 			}
 
@@ -56,7 +70,13 @@ namespace ft
 
 			map_iterator& operator--(void)
 			{
-				_current = _tree->predecessor(_current);
+				if (_current == _tree->getNil()
+						&& _tree->maximum(_tree->getRoot()) != _tree->getNil()
+						&& _lastMove == FORWARD)
+					_current = _tree->maximum(_tree->getRoot());
+				else
+					_current = _tree->predecessor(_current);
+				_lastMove = BACKWARD;
 				return *this;
 			}
 
@@ -70,6 +90,7 @@ namespace ft
 		private:
 			tree_type* _tree;
 			node_type* _current;
+			IndexMoves _lastMove;
 	};
 }
 
