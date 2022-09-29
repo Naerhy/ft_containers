@@ -45,7 +45,7 @@ namespace ft
 
 			void remove(key_type key) { _root = _remove(key, _root); }
 
-			node_type* search(key_type key) { return _search(_root, key); }
+			node_type* search(key_type key) const { return _search(_root, key); }
 
 			void printInOrder(void) { _printInOrder(_root); }
 
@@ -95,7 +95,8 @@ namespace ft
 			}
 
 			node_type* getRoot(void) { return _root; }
-			node_type* getNil(void) { return _nil; }
+
+			node_type* getNil(void) const { return _nil; }
 
 		private:
 			void _insert(node_type* new_node, node_type* node)
@@ -172,7 +173,7 @@ namespace ft
 				return node;
 			}
 
-			node_type* _search(node_type* node, key_type key)
+			node_type* _search(node_type* node, key_type key) const
 			{
 				if (node == _nil || key == node->data.first)
 					return node;

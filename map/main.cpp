@@ -71,23 +71,32 @@ int main(void)
 	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
 	itb--;
 	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
-	itb++;
-	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
-	itb++;
-	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
-	itb++;
-	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
-	itb++;
-	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
-	itb++;
-	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
-	itb++;
-	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
-	itb++;
-	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
-	itb--;
-	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
-	itb--;
-	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
+
+	std::cout << "=== TEST ERASE WITH ITERATOR ===" << std::endl;
+	C.printTree();
+	C.erase(C.begin());
+	std::cout << "AFTER DELETION:" << std::endl;
+	C.printTree();
+
+	std::cout << "TEST INSERT ITERATOR" << std::endl;
+	C.insert(C.begin(), C.end());
+	C.printTree();
+
+	std::cout << "TEST 2 INSERT ITERATOR" << std::endl;
+	ft::map<int, float> E;
+	E.insert(ft::make_pair(7, 7.7));
+	E.insert(ft::make_pair(14, 14.14));
+	E.insert(ft::make_pair(5, 5.5));
+	E.insert(ft::make_pair(11, 11.11));
+	C.insert(E.begin(), E.end());
+	C.printTree();
+
+	std::cout << "RANGE CONSTRUCTOR" << std::endl;
+	ft::map<int, float> F(E.begin(), E.end());
+	E.printTree();
+
+	std::cout << "COUNT" << std::endl;
+	std::cout << E.count(11) << std::endl;
+	std::cout << E.count(345) << std::endl;
 	return 0;
 }

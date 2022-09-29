@@ -9,6 +9,8 @@
 #include "BST.hpp"
 #include "map_iterator.hpp"
 
+// DO NOT FORGET TO ADD AND REMOVE CONST QUALIFIERS WHEN NEEDED
+
 namespace ft
 {
 	template <typename Key, typename T, typename Compare = std::less<Key>,
@@ -61,11 +63,17 @@ namespace ft
 					allocator_type const& alloc = allocator_type())
 				: _allocator(alloc), _comp(comp), _bst(_allocator), _size(0) {}
 
-			/*template <typename InputIt>
+			template <typename InputIt>
 			map(InputIt first, InputIt last, key_compare const& comp = key_compare(),
-					allocator_type const& alloc = allocator_type()) {}*/
+					allocator_type const& alloc = allocator_type())
+				: _allocator(alloc), _comp(comp), _bst(_allocator), _size(0)
+			{
+				insert(first, last); // verify if correct !!
+			}
 
 			// map(map const& x) {}
+
+			~map(void) {}
 
 			// map& operator=(map const& x) {}
 
@@ -132,10 +140,21 @@ namespace ft
 				return insert(val).first;
 			}
 
-			// template <typename InputIt>
-			// void insert(InputIt first, InputIt last) {}
+			template <typename InputIt>
+			void insert(InputIt first, InputIt last)
+			{
+				while (first != last)
+				{
+					insert(*first);
+					first++;
+				}
+			}
 
-			// void erase(iterator position) {}
+			void erase(iterator position)
+			{
+				_bst.remove(position->first);
+				_size--;
+			}
 
 			size_type erase(key_type const& k)
 			{
@@ -159,89 +178,12 @@ namespace ft
 				}
 			}
 
+			// void swap(map& x) {}
+
 			void clear(void)
 			{
 				_bst.destroy();
 				_size = 0;
-			}
-
-			// custom function:
-			// custom function:
-			// custom function:
-			void makeTest(void)
-			{
-				_bst.insert(make_pair(1, 1.1));
-				_bst.insert(make_pair(5, 5.5));
-				_bst.insert(make_pair(-3, -3.3));
-				_bst.insert(make_pair(-6, -6.6));
-				_bst.insert(make_pair(6, 6.6));
-				_bst.insert(make_pair(4, 4.4));
-				_bst.insert(make_pair(9, 9.9));
-				_bst.printInOrder();
-				std::cout << "==========" << std::endl;
-				_bst.remove(-3);
-				_bst.remove(5);
-				_bst.remove(1);
-				_bst.printInOrder();
-				std::cout << "==========" << std::endl;
-				Node<value_type>* root = _bst.getRoot();
-				Node<value_type>* x;
-
-				std::cout << "root = " << root->data.first << " | " << root->data.second << std::endl;
-
-				x = _bst.minimum(root);
-				std::cout << "minimum = " << x->data.first << " - " << x->data.second << std::endl;
-
-				x = _bst.successor(x);
-				std::cout << "successor = " << x->data.first << " - " << x->data.second << std::endl;
-				x = _bst.successor(x);
-				std::cout << "successor = " << x->data.first << " - " << x->data.second << std::endl;
-				x = _bst.successor(x);
-				std::cout << "successor = " << x->data.first << " - " << x->data.second << std::endl;
-				x = _bst.successor(x);
-				std::cout << "successor = " << x->data.first << " - " << x->data.second << std::endl;
-				x = _bst.successor(x);
-				std::cout << "successor = " << x->data.first << " - " << x->data.second << std::endl;
-				x = _bst.successor(x);
-				std::cout << "successor = " << x->data.first << " - " << x->data.second << std::endl;
-				x = _bst.successor(x);
-				std::cout << "successor = " << x->data.first << " - " << x->data.second << std::endl;
-
-				x = _bst.maximum(root);
-				x = _bst.predecessor(x);
-				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
-				x = _bst.predecessor(x);
-				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
-				x = _bst.predecessor(x);
-				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
-				x = _bst.predecessor(x);
-				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
-				x = _bst.predecessor(x);
-				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
-				x = _bst.predecessor(x);
-				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
-				x = _bst.predecessor(x);
-				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
-				x = _bst.predecessor(x);
-				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
-				x = _bst.predecessor(x);
-				std::cout << "predecessor = " << x->data.first << " - " << x->data.second << std::endl;
-			}
-
-			// DELETE AFTER TESTS
-			// DELETE AFTER TESTS
-			// DELETE AFTER TESTS
-			void printTree(void) { _bst.printInOrder(); }
-
-			// DELETE AFTER TESTS
-			// DELETE AFTER TESTS
-			// DELETE AFTER TESTS
-			void printMinMax(void)
-			{
-				Node<value_type>* min = _bst.minimum(_bst.getRoot());
-				Node<value_type>* max = _bst.maximum(_bst.getRoot());
-				std::cout << min->data.first << " - " << min->data.second << " || "
-					<< max->data.first << " - " << max->data.second << std::endl;
 			}
 
 			/********************
@@ -256,15 +198,23 @@ namespace ft
 			*     OPERATIONS     *
 			*********************/
 
-			/*iterator find(key_type const& k) {}
-			const_iterator find(key_type const& k) const {}
-			size_type count(key_type const& k) const {}
-			iterator lower_bound(key_type const& k) {}
-			const_iterator lower_bound(key_type const& k) const {}
-			iterator upper_bound(key_type const& k) {}
-			const_iterator upper_bound(key_type const& k) const {}
-			pair<const_iterator, const_iterator> equal_range(key_type const& k) const {}
-			pair<iterator, iterator> equal_range(key_type const& k) {}*/
+			// iterator find(key_type const& k) {}
+			// const_iterator find(key_type const& k) const {}
+
+			size_type count(key_type const& k) const
+			{
+				if (_bst.search(k) == _bst.getNil())
+					return 0;
+				else
+					return 1;
+			}
+
+			// iterator lower_bound(key_type const& k) {}
+			// const_iterator lower_bound(key_type const& k) const {}
+			// iterator upper_bound(key_type const& k) {}
+			// const_iterator upper_bound(key_type const& k) const {}
+			// pair<const_iterator, const_iterator> equal_range(key_type const& k) const {}
+			// pair<iterator, iterator> equal_range(key_type const& k) {}
 
 			/********************
 			*     ALLOCATOR     *
@@ -282,6 +232,31 @@ namespace ft
 			BST<value_type, allocator_type> _bst;
 			size_type _size;
 	};
+
+	/*******************************
+	*     NON-MEMBER FUNCTIONS     *
+	*******************************/
+
+	// template <typename Key, typename T, typename Comp, typename Alloc>
+	// bool operator==(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs) {}
+
+	// template <typename Key, typename T, typename Comp, typename Alloc>
+	// bool operator!=(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs) {}
+
+	// template <typename Key, typename T, typename Comp, typename Alloc>
+	// bool operator<(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs) {}
+
+	// template <typename Key, typename T, typename Comp, typename Alloc>
+	// bool operator<=(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs) {}
+
+	// template <typename Key, typename T, typename Comp, typename Alloc>
+	// bool operator>(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs) {}
+
+	// template <typename Key, typename T, typename Comp, typename Alloc>
+	// bool operator>=(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs) {}
+
+	// template <typename Key, typename T, typename Compare, typename Alloc>
+	// void swap(map<Key, T, Compare, Alloc>& lhs, map<Key, T, Compare, Alloc>& rhs {}
 }
 
 #endif
