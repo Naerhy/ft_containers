@@ -3,29 +3,6 @@
 #include "map.hpp"
 #include "../utils/make_pair.hpp"
 
-/*int main(void)
-{
-	ft::map<int, float> A;
-	A.insert(ft::make_pair(3, 30.3));
-	A.insert(ft::make_pair(1, 10.1));
-	A.insert(ft::make_pair(5, 50.5));
-	A.insert(ft::make_pair(2, 20.2));
-	A.printInOrder();
-	A.remove(3);
-	A.remove(1);
-	std::cout << "=====" << std::endl;
-	A.printInOrder();
-	std::cout << "=====" << std::endl;
-
-	ft::map<int, float>::iterator it = A.begin();
-	std::cout << it->first << " - " << it->second << std::endl;
-	++it;
-	std::cout << it->first << " - " << it->second << std::endl;
-	//++it;
-	//std::cout << it->first << " - " << it->second << std::endl;
-	return 0;
-}*/
-
 int main(void)
 {
 	ft::map<int, float> B;
@@ -43,10 +20,11 @@ int main(void)
 	it++;
 	std::cout << "it = " << it->first << " - " << it->second << std::endl;
 	std::cout << "===== =====" << std::endl;
-	C.printTree();
+	for (ft::map<int, float>::iterator it = C.begin(); it != C.end(); it++)
+		std::cout << "it = " << it->first << " - " << it->second << std::endl;
 	std::cout << "===== =====" << std::endl;
-	// C.erase(12);
-	C.printTree();
+	for (ft::map<int, float>::iterator it = C.begin(); it != C.end(); it++)
+		std::cout << "it = " << it->first << " - " << it->second << std::endl;
 
 	ft::map<int, float>::iterator itt = C.begin();
 	std::cout << "it = " << it->first << " - " << it->second << std::endl;
@@ -63,24 +41,23 @@ int main(void)
 		ita++;
 	}
 
-	ft::map<int, float> D;
-	D.insert(ft::make_pair(45, 45.45));
-	D.printMinMax();
-
 	ft::map<int, float>::iterator itb = C.begin();
 	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
 	itb--;
 	std::cout << "itb = " << itb->first << " - " << itb->second << std::endl;
 
 	std::cout << "=== TEST ERASE WITH ITERATOR ===" << std::endl;
-	C.printTree();
+	for (ft::map<int, float>::iterator it = C.begin(); it != C.end(); it++)
+		std::cout << "it = " << it->first << " - " << it->second << std::endl;
 	C.erase(C.begin());
 	std::cout << "AFTER DELETION:" << std::endl;
-	C.printTree();
+	for (ft::map<int, float>::iterator it = C.begin(); it != C.end(); it++)
+		std::cout << "it = " << it->first << " - " << it->second << std::endl;
 
 	std::cout << "TEST INSERT ITERATOR" << std::endl;
 	C.insert(C.begin(), C.end());
-	C.printTree();
+	for (ft::map<int, float>::iterator it = C.begin(); it != C.end(); it++)
+		std::cout << "it = " << it->first << " - " << it->second << std::endl;
 
 	std::cout << "TEST 2 INSERT ITERATOR" << std::endl;
 	ft::map<int, float> E;
@@ -89,14 +66,21 @@ int main(void)
 	E.insert(ft::make_pair(5, 5.5));
 	E.insert(ft::make_pair(11, 11.11));
 	C.insert(E.begin(), E.end());
-	C.printTree();
+	for (ft::map<int, float>::iterator it = C.begin(); it != C.end(); it++)
+		std::cout << "it = " << it->first << " - " << it->second << std::endl;
 
 	std::cout << "RANGE CONSTRUCTOR" << std::endl;
 	ft::map<int, float> F(E.begin(), E.end());
-	E.printTree();
+	for (ft::map<int, float>::iterator it = E.begin(); it != E.end(); it++)
+		std::cout << "it = " << it->first << " - " << it->second << std::endl;
 
 	std::cout << "COUNT" << std::endl;
 	std::cout << E.count(11) << std::endl;
 	std::cout << E.count(345) << std::endl;
+
+	ft::map<int, float> G(E);
+	for (ft::map<int, float>::const_iterator cit = G.begin(); cit != G.end(); cit++)
+		std::cout << "cit = " << cit->first << " - " << cit->second << std::endl;
+
 	return 0;
 }

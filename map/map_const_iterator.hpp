@@ -1,35 +1,34 @@
-#ifndef __MAP_ITERATOR_HPP__
-#define __MAP_ITERATOR_HPP__
+#ifndef __MAP_CONST_ITERATOR_HPP__
+#define __MAP_CONST_ITERATOR_HPP__
 
 #include <iterator>
 #include <cstddef>
-#include "map_const_iterator.hpp"
 
 namespace ft
 {
 	template <typename N, typename V, typename A>
-	class map_iterator
+	class map_const_iterator
 	{
 		public:
 			typedef std::bidirectional_iterator_tag iterator_category;
 
-			typedef BST<V, A> tree_type;
+			typedef BST<V, A> const tree_type;
 			typedef N node_type;
-			typedef V value_type;
+			typedef V const value_type;
 
 			enum IndexMoves { INACTIVE, FORWARD, BACKWARD };
 
-			map_iterator(void) : _tree(NULL), _current(NULL), _lastMove(INACTIVE) {}
+			map_const_iterator(void) : _tree(NULL), _current(NULL), _lastMove(INACTIVE) {}
 
-			explicit map_iterator(tree_type* tree, node_type* node)
+			explicit map_const_iterator(tree_type* tree, node_type* node)
 				: _tree(tree), _current(node), _lastMove(INACTIVE) {}
 
-			map_iterator(map_iterator const& copy)
+			map_const_iterator(map_const_iterator const& copy)
 				: _tree(copy._tree), _current(copy._current), _lastMove(copy._lastMove) {}
 
-			~map_iterator(void) {}
+			~map_const_iterator(void) {}
 
-			map_iterator& operator=(map_iterator const& assign)
+			map_const_iterator& operator=(map_const_iterator const& assign)
 			{
 				if (this != &assign)
 				{
@@ -40,25 +39,17 @@ namespace ft
 				return *this;
 			}
 
-			// add last move or it will be set to inactive by default...
-			// add last move or it will be set to inactive by default...
-			// add last move or it will be set to inactive by default...
-			operator map_const_iterator<N, V, A>(void) const
-			{
-				return map_const_iterator<N, V, A>(_tree, _current);
-			}
-
 			value_type& operator*(void) { return _current->data; }
 			value_type* operator->(void) { return &(_current->data); }
 
-			bool operator==(map_iterator const& x) const
+			bool operator==(map_const_iterator const& x) const
 			{
 				return (_tree == x._tree && _current == x._current);
 			}
 
-			bool operator!=(map_iterator const& x) const { return !(*this == x); }
+			bool operator!=(map_const_iterator const& x) const { return !(*this == x); }
 
-			map_iterator& operator++(void)
+			map_const_iterator& operator++(void)
 			{
 				if (_current == _tree->getNil()
 						&& _tree->minimum(_tree->getRoot()) != _tree->getNil()
@@ -70,14 +61,14 @@ namespace ft
 				return *this;
 			}
 
-			map_iterator operator++(int)
+			map_const_iterator operator++(int)
 			{
-				map_iterator temp(*this);
+				map_const_iterator temp(*this);
 				++(*this);
 				return temp;
 			}
 
-			map_iterator& operator--(void)
+			map_const_iterator& operator--(void)
 			{
 				if (_current == _tree->getNil()
 						&& _tree->maximum(_tree->getRoot()) != _tree->getNil()
@@ -89,9 +80,9 @@ namespace ft
 				return *this;
 			}
 
-			map_iterator operator--(int)
+			map_const_iterator operator--(int)
 			{
-				map_iterator temp(*this);
+				map_const_iterator temp(*this);
 				--(*this);
 				return temp;
 			}

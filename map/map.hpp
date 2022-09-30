@@ -8,6 +8,7 @@
 #include "Node.hpp"
 #include "BST.hpp"
 #include "map_iterator.hpp"
+#include "map_const_iterator.hpp"
 
 // DO NOT FORGET TO ADD AND REMOVE CONST QUALIFIERS WHEN NEEDED
 
@@ -33,7 +34,7 @@ namespace ft
 			typedef typename Allocator::const_pointer const_pointer;
 
 			typedef map_iterator<Node<value_type>, value_type, allocator_type> iterator;
-			// typedef const_iterator
+			typedef map_const_iterator<Node<value_type>, value_type, allocator_type> const_iterator;
 			// typedef reverse_iterator
 			// typedef const_reverse_iterator
 
@@ -68,10 +69,15 @@ namespace ft
 					allocator_type const& alloc = allocator_type())
 				: _allocator(alloc), _comp(comp), _bst(_allocator), _size(0)
 			{
-				insert(first, last); // verify if correct !!
+				insert(first, last);
 			}
 
-			// map(map const& x) {}
+			map(map const& copy)
+				: _allocator(copy._allocator), _comp(copy._comp), _bst(_allocator),
+				_size(copy._size)
+			{
+				insert(copy.begin(), copy.end());
+			}
 
 			~map(void) {}
 
@@ -82,14 +88,23 @@ namespace ft
 			********************/
 
 			iterator begin(void) { return iterator(&_bst, _bst.minimum(_bst.getRoot())); }
-			// const_iterator begin(void) const {}
+
+			const_iterator begin(void) const
+			{
+				return const_iterator(&_bst, _bst.minimum(_bst.getRoot()));
+			}
+
 			iterator end(void)
 			{
 				return iterator(&_bst, _bst.successor(_bst.maximum(_bst.getRoot())));
 			}
 
-			/*const_iterator end(void) const {}
-			reverse_iterator rbegin(void) {}
+			const_iterator end(void) const
+			{
+				return const_iterator(&_bst, _bst.successor(_bst.maximum(_bst.getRoot())));
+			}
+
+			/*reverse_iterator rbegin(void) {}
 			const_reverse_iterator rbegin(void) const {}
 			reverse_iterator rend(void) {}
 			const_reverse_iterator rend(void) const {}*/

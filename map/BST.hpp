@@ -47,28 +47,28 @@ namespace ft
 
 			node_type* search(key_type key) const { return _search(_root, key); }
 
-			void printInOrder(void) { _printInOrder(_root); }
+			void printInOrder(void) const { _printInOrder(_root); }
 
 			void destroy(void) {
 				_destroy(_root);
 				_root = _nil;
 			}
 
-			node_type* minimum(node_type* node)
+			node_type* minimum(node_type* node) const
 			{
 				while (node->left != _nil)
 					node = node->left;
 				return node;
 			}
 
-			node_type* maximum(node_type* node)
+			node_type* maximum(node_type* node) const
 			{
 				while (node->right != _nil)
 					node = node->right;
 				return node;
 			}
 
-			node_type* predecessor(node_type* node)
+			node_type* predecessor(node_type* node) const
 			{
 				if (node->left != _nil)
 					return maximum(node->left);
@@ -81,7 +81,7 @@ namespace ft
 				return temp;
 			}
 
-			node_type* successor(node_type* node)
+			node_type* successor(node_type* node) const
 			{
 				if (node->right != _nil)
 					return minimum(node->right);
@@ -94,7 +94,7 @@ namespace ft
 				return temp;
 			}
 
-			node_type* getRoot(void) { return _root; }
+			node_type* getRoot(void) const { return _root; }
 
 			node_type* getNil(void) const { return _nil; }
 
@@ -164,10 +164,6 @@ namespace ft
 						node->parent = temp->parent;
 						_allocator.destroy(temp);
 						_allocator.deallocate(temp, 1);
-
-						/*node_type* temp = minimum(node->right);
-						node->data = temp->data;
-						node->right = _remove(temp->data.first, node->right);*/
 					}
 				}
 				return node;
@@ -183,7 +179,7 @@ namespace ft
 					return _search(node->right, key);
 			}
 
-			void _printInOrder(node_type* node)
+			void _printInOrder(node_type* node) const
 			{
 				if (node != _nil)
 				{
