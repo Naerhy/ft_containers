@@ -7,13 +7,13 @@
 
 namespace ft
 {
-	template <typename N, typename V, typename A>
+	template <typename N, typename V, typename C, typename A>
 	class map_iterator
 	{
 		public:
 			typedef std::bidirectional_iterator_tag iterator_category;
 
-			typedef BST<V, A> tree_type;
+			typedef BST<V, C, A> tree_type;
 			typedef N node_type;
 			typedef V value_type;
 
@@ -43,9 +43,9 @@ namespace ft
 			// add last move or it will be set to inactive by default...
 			// add last move or it will be set to inactive by default...
 			// add last move or it will be set to inactive by default...
-			operator map_const_iterator<N, V, A>(void) const
+			operator map_const_iterator<N, V, C, A>(void) const
 			{
-				return map_const_iterator<N, V, A>(_tree, _current);
+				return map_const_iterator<N, V, C, A>(_tree, _current);
 			}
 
 			value_type& operator*(void) { return _current->data; }

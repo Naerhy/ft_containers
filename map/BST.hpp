@@ -8,7 +8,7 @@
 
 namespace ft
 {
-	template <typename Pair, typename Allocator>
+	template <typename Pair, typename Compare, typename Allocator>
 	class BST
 	{
 		public:
@@ -17,8 +17,8 @@ namespace ft
 			typedef typename Pair::second_type mapped_type;
 			typedef Allocator allocator_type;
 
-			BST(allocator_type const& alloc)
-				: _allocator(alloc), _nil(_allocator.allocate(1)), _root(_nil)
+			BST(Compare comp, allocator_type const& alloc)
+				: _comp(comp), _allocator(alloc), _nil(_allocator.allocate(1)), _root(_nil)
 			{
 				_allocator.construct(_nil, node_type());
 				_nil->left = _nil;
@@ -105,7 +105,7 @@ namespace ft
 				while (node != _nil)
 				{
 					temp = node;
-					if (new_node->data.first < node->data.first)
+					if (_comp(new_node->data.first, node->data.first))
 						node = node->left;
 					else
 						node = node->right;
@@ -113,7 +113,7 @@ namespace ft
 				new_node->parent = temp;
 				if (temp == _nil)
 					_root = new_node;
-				else if (new_node->data.first < temp->data.first)
+				else if (_comp(new_node->data.first, temp->data.first))
 					temp->left = new_node;
 				else
 					temp->right = new_node;
@@ -123,9 +123,9 @@ namespace ft
 			{
 				if (node == _nil)
 					return node;
-				else if (key < node->data.first)
+				else if (_comp(key, node->data.first))
 					node->left = _remove(key, node->left);
-				else if (key > node->data.first)
+				else if (_comp(node->data.first, key))
 					node->right = _remove(key, node->right);
 				else
 				{
@@ -171,9 +171,10 @@ namespace ft
 
 			node_type* _search(node_type* node, key_type key) const
 			{
-				if (node == _nil || key == node->data.first)
+				if (node == _nil
+						|| (!(_comp(key, node->data.first)) && !(_comp(node->data.first, key))))
 					return node;
-				if (key < node->data.first)
+				if (_comp(key, node->data.first))
 					return _search(node->left, key);
 				else
 					return _search(node->right, key);
@@ -200,6 +201,7 @@ namespace ft
 				}
 			}
 
+			Compare _comp;
 			allocator_type _allocator;
 			node_type* _nil;
 			node_type* _root;

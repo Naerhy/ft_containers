@@ -82,5 +82,30 @@ int main(void)
 	for (ft::map<int, float>::const_iterator cit = G.begin(); cit != G.end(); cit++)
 		std::cout << "cit = " << cit->first << " - " << cit->second << std::endl;
 
+	ft::map<int, float>::const_iterator cita = E.begin();
+	ft::map<int, float>::const_iterator citb = E.begin();
+	citb++;
+	citb++;
+	std::cout << "cita = " << cita->first << " | citb = " << citb->first << std::endl;
+	std::cout << E.value_comp()(*cita, *citb) << std::endl;
+	std::cout << E.value_comp()(*citb, *cita) << std::endl;
+
+	ft::map<int, float>::iterator cdit = C.begin();
+	ft::map<int, float>::const_iterator ccdit = cdit;
+
+	std::cout << "TEST ASSIGNMENT OPERATOR" << std::endl;
+	std::cout << "C = " << std::endl;
+	for (ft::map<int, float>::const_iterator cit = C.begin(); cit != C.end(); cit++)
+		std::cout << "cit = " << cit->first << " - " << cit->second << std::endl;
+	std::cout << "E = " << std::endl;
+	for (ft::map<int, float>::const_iterator cit = E.begin(); cit != E.end(); cit++)
+		std::cout << "cit = " << cit->first << " - " << cit->second << std::endl;
+	E = C;
+	std::cout << "C = " << std::endl;
+	for (ft::map<int, float>::const_iterator cit = C.begin(); cit != C.end(); cit++)
+		std::cout << "cit = " << cit->first << " - " << cit->second << std::endl;
+
+	
+
 	return 0;
 }

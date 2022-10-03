@@ -33,8 +33,8 @@ namespace ft
 			typedef typename Allocator::pointer pointer;
 			typedef typename Allocator::const_pointer const_pointer;
 
-			typedef map_iterator<Node<value_type>, value_type, allocator_type> iterator;
-			typedef map_const_iterator<Node<value_type>, value_type, allocator_type> const_iterator;
+			typedef map_iterator<Node<value_type>, value_type, key_compare, allocator_type> iterator;
+			typedef map_const_iterator<Node<value_type>, value_type, key_compare, allocator_type> const_iterator;
 			// typedef reverse_iterator
 			// typedef const_reverse_iterator
 
@@ -62,18 +62,18 @@ namespace ft
 
 			explicit map(key_compare const& comp = key_compare(),
 					allocator_type const& alloc = allocator_type())
-				: _allocator(alloc), _comp(comp), _bst(_allocator), _size(0) {}
+				: _allocator(alloc), _comp(comp), _bst(_comp, _allocator), _size(0) {}
 
 			template <typename InputIt>
 			map(InputIt first, InputIt last, key_compare const& comp = key_compare(),
 					allocator_type const& alloc = allocator_type())
-				: _allocator(alloc), _comp(comp), _bst(_allocator), _size(0)
+				: _allocator(alloc), _comp(comp), _bst(_comp, _allocator), _size(0)
 			{
 				insert(first, last);
 			}
 
 			map(map const& copy)
-				: _allocator(copy._allocator), _comp(copy._comp), _bst(_allocator),
+				: _allocator(copy._allocator), _comp(copy._comp), _bst(_comp, _allocator),
 				_size(copy._size)
 			{
 				insert(copy.begin(), copy.end());
@@ -81,7 +81,15 @@ namespace ft
 
 			~map(void) {}
 
-			// map& operator=(map const& x) {}
+			map& operator=(map const& x)
+			{
+				if (this != &x)
+				{
+					clear();
+					insert(x.begin(), x.end());
+				}
+				return *this;
+			}
 
 			/********************
 			*     ITERATORS     *
@@ -140,7 +148,7 @@ namespace ft
 			pair<iterator, bool> insert(value_type const& val)
 			{
 				Node<value_type>* s = _bst.search(val.first);
-				if (s == s->parent)
+				if (s == _bst.getNil())
 				{
 					_bst.insert(val);
 					_size++;
@@ -174,7 +182,7 @@ namespace ft
 			size_type erase(key_type const& k)
 			{
 				Node<value_type>* s = _bst.search(k);
-				if (s == s->parent)
+				if (s == _bst.getNil())
 					return 0;
 				else
 				{
@@ -244,7 +252,7 @@ namespace ft
 		private:
 			allocator_type _allocator;
 			key_compare _comp;
-			BST<value_type, allocator_type> _bst;
+			BST<value_type, key_compare, allocator_type> _bst;
 			size_type _size;
 	};
 

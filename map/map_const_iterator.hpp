@@ -6,13 +6,13 @@
 
 namespace ft
 {
-	template <typename N, typename V, typename A>
+	template <typename N, typename V, typename C, typename A>
 	class map_const_iterator
 	{
 		public:
 			typedef std::bidirectional_iterator_tag iterator_category;
 
-			typedef BST<V, A> const tree_type;
+			typedef BST<V, C, A> const tree_type;
 			typedef N node_type;
 			typedef V const value_type;
 
