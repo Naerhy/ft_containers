@@ -105,6 +105,15 @@ int main(void)
 	for (ft::map<int, float>::const_iterator cit = C.begin(); cit != C.end(); cit++)
 		std::cout << "cit = " << cit->first << " - " << cit->second << std::endl;
 
+	std::cout << "FIND FUNCTION:" << std::endl;
+	std::cout << (E.find(11))->first << " - " << (E.find(5))->second << std::endl;
+
+	std::cout << "OPERATIONS MAP METHODS" << std::endl;
+	std::cout << (E.lower_bound(11))->first << " - " << (E.lower_bound(14))->first << std::endl;
+	std::cout << (E.upper_bound(11))->first << " - " << (E.upper_bound(14))->first << std::endl;
+
+	std::cout << ((E.equal_range(11)).first)->second << " - " << ((E.equal_range(11)).second)->second << std::endl;
+
 	
 
 	return 0;

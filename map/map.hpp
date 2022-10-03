@@ -221,8 +221,23 @@ namespace ft
 			*     OPERATIONS     *
 			*********************/
 
-			// iterator find(key_type const& k) {}
-			// const_iterator find(key_type const& k) const {}
+			iterator find(key_type const& k)
+			{
+				Node<value_type>* s = _bst.search(k);
+				if (s == _bst.getNil())
+					return end();
+				else
+					return iterator(&_bst, s);
+			}
+
+			const_iterator find(key_type const& k) const
+			{
+				Node<value_type>* s = _bst.search(k);
+				if (s == _bst.getNil())
+					return end();
+				else
+					return const_iterator(&_bst, s);
+			}
 
 			size_type count(key_type const& k) const
 			{
@@ -232,12 +247,55 @@ namespace ft
 					return 1;
 			}
 
-			// iterator lower_bound(key_type const& k) {}
-			// const_iterator lower_bound(key_type const& k) const {}
-			// iterator upper_bound(key_type const& k) {}
-			// const_iterator upper_bound(key_type const& k) const {}
-			// pair<const_iterator, const_iterator> equal_range(key_type const& k) const {}
-			// pair<iterator, iterator> equal_range(key_type const& k) {}
+			iterator lower_bound(key_type const& k)
+			{
+				for (const_iterator cit = begin(); cit != end(); cit++)
+				{
+					if (!(_comp(cit->first, k)))
+						return iterator(&_bst, _bst.search(cit->first));
+				}
+				return end();
+			}
+
+			const_iterator lower_bound(key_type const& k) const
+			{
+				for (const_iterator cit = begin(); cit != end(); cit++)
+				{
+					if (!(_comp(cit->first, k)))
+						return const_iterator(&_bst, _bst.search(cit->first));
+				}
+				return end();
+			}
+
+			iterator upper_bound(key_type const& k)
+			{
+				for (const_iterator cit = begin(); cit != end(); cit++)
+				{
+					if (_comp(k, cit->first))
+						return iterator(&_bst, _bst.search(cit->first));
+				}
+				return end();
+			}
+
+			const_iterator upper_bound(key_type const& k) const
+			{
+				for (const_iterator cit = begin(); cit != end(); cit++)
+				{
+					if (_comp(k, cit->first))
+						return const_iterator(&_bst, _bst.search(cit->first));
+				}
+				return end();
+			}
+
+			pair<iterator, iterator> equal_range(key_type const& k)
+			{
+				return ft::pair<iterator, iterator>(lower_bound(k), upper_bound(k));
+			}
+
+			pair<const_iterator, const_iterator> equal_range(key_type const& k) const
+			{
+				return ft::pair<const_iterator, const_iterator>(lower_bound(k), upper_bound(k));
+			}
 
 			/********************
 			*     ALLOCATOR     *
