@@ -114,6 +114,14 @@ int main(void)
 
 	std::cout << ((E.equal_range(11)).first)->second << " - " << ((E.equal_range(11)).second)->second << std::endl;
 
+	std::cout << "RELATIONAL OPERATORS" << std::endl;
+	std::cout << "C == E : " << (C == E) << std::endl;
+	std::cout << "C != E : " << (C != E) << std::endl;
+	std::cout << "C < E : " << (C < E) << std::endl;
+	std::cout << "C <= E : " << (C <= E) << std::endl;
+	std::cout << "C > E : " << (C > E) << std::endl;
+	std::cout << "C >= E : " << (C >= E) << std::endl;
+
 	
 
 	return 0;

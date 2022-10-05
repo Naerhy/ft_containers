@@ -9,6 +9,8 @@
 #include "BST.hpp"
 #include "map_iterator.hpp"
 #include "map_const_iterator.hpp"
+#include "../utils/equal.hpp"
+#include "../utils/lexicographical_compare.hpp"
 
 // DO NOT FORGET TO ADD AND REMOVE CONST QUALIFIERS WHEN NEEDED
 
@@ -318,26 +320,49 @@ namespace ft
 	*     NON-MEMBER FUNCTIONS     *
 	*******************************/
 
-	// template <typename Key, typename T, typename Comp, typename Alloc>
-	// bool operator==(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs) {}
+	template <typename Key, typename T, typename Comp, typename Alloc>
+	bool operator==(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs)
+	{
+		typedef typename map<Key, T, Comp, Alloc>::const_iterator it_type;
+		if (lhs.size() == rhs.size())
+			return ft::equal<it_type, it_type>(lhs.begin(), lhs.end(), rhs.begin());
+		return false;
+	}
 
-	// template <typename Key, typename T, typename Comp, typename Alloc>
-	// bool operator!=(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs) {}
+	template <typename Key, typename T, typename Comp, typename Alloc>
+	bool operator!=(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs)
+	{
+		return !(lhs == rhs);
+	}
 
-	// template <typename Key, typename T, typename Comp, typename Alloc>
-	// bool operator<(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs) {}
+	template <typename Key, typename T, typename Comp, typename Alloc>
+	bool operator<(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs)
+	{
+		typedef typename map<Key, T, Comp, Alloc>::const_iterator it_type;
+		return ft::lexicographical_compare<it_type, it_type>(lhs.begin(), lhs.end(),
+				rhs.begin(), rhs.end());
+	}
 
-	// template <typename Key, typename T, typename Comp, typename Alloc>
-	// bool operator<=(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs) {}
+	template <typename Key, typename T, typename Comp, typename Alloc>
+	bool operator<=(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs)
+	{
+		return !(rhs < lhs);
+	}
 
-	// template <typename Key, typename T, typename Comp, typename Alloc>
-	// bool operator>(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs) {}
+	template <typename Key, typename T, typename Comp, typename Alloc>
+	bool operator>(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs)
+	{
+		return rhs < lhs;
+	}
 
-	// template <typename Key, typename T, typename Comp, typename Alloc>
-	// bool operator>=(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs) {}
+	template <typename Key, typename T, typename Comp, typename Alloc>
+	bool operator>=(map<Key, T, Comp, Alloc> const& lhs, map<Key, T, Comp, Alloc> const& rhs)
+	{
+		return !(lhs < rhs);
+	}
 
 	// template <typename Key, typename T, typename Compare, typename Alloc>
-	// void swap(map<Key, T, Compare, Alloc>& lhs, map<Key, T, Compare, Alloc>& rhs {}
+	// void swap(map<Key, T, Compare, Alloc>& lhs, map<Key, T, Compare, Alloc>& rhs { lhs.swap(rhs); }
 }
 
 #endif
