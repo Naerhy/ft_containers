@@ -373,7 +373,7 @@ namespace ft
 	{
 		typedef typename vector<T, Alloc>::const_iterator it_type;
 		if (lhs.size() == rhs.size())
-			return equal<it_type, it_type>(lhs.begin(), lhs.end(), rhs.begin());
+			return ft::equal<it_type, it_type>(lhs.begin(), lhs.end(), rhs.begin());
 		return false;
 	}
 
@@ -387,7 +387,7 @@ namespace ft
 	bool operator<(vector<T, Alloc> const& lhs, vector<T, Alloc> const& rhs)
 	{
 		typedef typename vector<T, Alloc>::const_iterator it_type;
-		return lexicographical_compare<it_type, it_type>(lhs.begin(), lhs.end(),
+		return ft::lexicographical_compare<it_type, it_type>(lhs.begin(), lhs.end(),
 				rhs.begin(), rhs.end());
 	}
 
