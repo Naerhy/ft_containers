@@ -12,10 +12,12 @@ namespace ft
 	{
 		public:
 			typedef std::bidirectional_iterator_tag iterator_category;
-
 			typedef BST<V, C, A> tree_type;
 			typedef N node_type;
 			typedef V value_type;
+			typedef V& reference;
+			typedef V* pointer;
+			typedef std::ptrdiff_t difference_type;
 
 			enum IndexMoves { INACTIVE, FORWARD, BACKWARD };
 
@@ -48,8 +50,8 @@ namespace ft
 				return map_const_iterator<N, V, C, A>(_tree, _current);
 			}
 
-			value_type& operator*(void) { return _current->data; }
-			value_type* operator->(void) { return &(_current->data); }
+			reference operator*(void) { return _current->data; }
+			pointer operator->(void) { return &(_current->data); }
 
 			bool operator==(map_iterator const& x) const
 			{

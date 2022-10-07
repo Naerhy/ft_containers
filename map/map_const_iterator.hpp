@@ -15,6 +15,9 @@ namespace ft
 			typedef BST<V, C, A> const tree_type;
 			typedef N node_type;
 			typedef V const value_type;
+			typedef V const & reference;
+			typedef V const* pointer;
+			typedef std::ptrdiff_t difference_type;
 
 			enum IndexMoves { INACTIVE, FORWARD, BACKWARD };
 
@@ -39,8 +42,8 @@ namespace ft
 				return *this;
 			}
 
-			value_type& operator*(void) { return _current->data; }
-			value_type* operator->(void) { return &(_current->data); }
+			reference operator*(void) { return _current->data; }
+			pointer operator->(void) { return &(_current->data); }
 
 			bool operator==(map_const_iterator const& x) const
 			{
