@@ -122,7 +122,14 @@ int main(void)
 	std::cout << "C > E : " << (C > E) << std::endl;
 	std::cout << "C >= E : " << (C >= E) << std::endl;
 
-	
+	std::cout << "END -- TESTS" << std::endl;
+	ft::map<int, float>::const_iterator itminus = C.end();
+	std::cout << itminus->first << " - " << itminus->second << std::endl;
+	itminus--;
+	std::cout << itminus->first << " - " << itminus->second << std::endl;
+	itminus--;
+	std::cout << itminus->first << " - " << itminus->second << std::endl;
+
 
 	return 0;
 }

@@ -19,12 +19,12 @@ namespace ft
 			typedef V* pointer;
 			typedef std::ptrdiff_t difference_type;
 
-			enum IndexMoves { INACTIVE, FORWARD, BACKWARD };
+			enum IndexMoves { FORWARD, BACKWARD };
 
-			map_iterator(void) : _tree(NULL), _current(NULL), _lastMove(INACTIVE) {}
+			map_iterator(void) : _tree(NULL), _current(NULL), _lastMove(FORWARD) {}
 
 			explicit map_iterator(tree_type* tree, node_type* node)
-				: _tree(tree), _current(node), _lastMove(INACTIVE) {}
+				: _tree(tree), _current(node), _lastMove(FORWARD) {}
 
 			map_iterator(map_iterator const& copy)
 				: _tree(copy._tree), _current(copy._current), _lastMove(copy._lastMove) {}

@@ -9,10 +9,9 @@
 #include "BST.hpp"
 #include "map_iterator.hpp"
 #include "map_const_iterator.hpp"
+#include "../utils/reverse_iterator.hpp"
 #include "../utils/equal.hpp"
 #include "../utils/lexicographical_compare.hpp"
-
-// DO NOT FORGET TO ADD AND REMOVE CONST QUALIFIERS WHEN NEEDED
 
 namespace ft
 {
@@ -37,8 +36,8 @@ namespace ft
 
 			typedef map_iterator<Node<value_type>, value_type, key_compare, allocator_type> iterator;
 			typedef map_const_iterator<Node<value_type>, value_type, key_compare, allocator_type> const_iterator;
-			// typedef reverse_iterator
-			// typedef const_reverse_iterator
+			typedef ft::reverse_iterator<iterator> reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 			typedef typename Allocator::size_type size_type;
 			typedef typename Allocator::difference_type difference_type;
@@ -117,10 +116,13 @@ namespace ft
 				return const_iterator(_bst, _bst->successor(_bst->maximum(_bst->getRoot())));
 			}
 
-			/*reverse_iterator rbegin(void) {}
-			const_reverse_iterator rbegin(void) const {}
-			reverse_iterator rend(void) {}
-			const_reverse_iterator rend(void) const {}*/
+			// reverse_iterator rbegin(void) { return reverse_iterator(end()); }
+
+			// const_reverse_iterator rbegin(void) const { return const_reverse_iterator(end)); }
+
+			// reverse_iterator rend(void) { return reverse_iterator(begin()); }
+
+			// const_reverse_iterator rend(void) const { return const_reverse_iterator(begin()); }
 
 			/*******************
 			*     CAPACITY     *
