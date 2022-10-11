@@ -23,28 +23,28 @@ namespace ft
 			*     MEMBER FUNCTIONS     *
 			***************************/
 
-			explicit stack(container_type const& ctnr = container_type()) : _ctnr(ctnr) {}
+			explicit stack(container_type const& c = container_type()) : c(c) {}
 
 			~stack(void) {}
 
 			stack& operator=(stack const& assign)
 			{
 				if (this != &assign)
-					_ctnr = assign._ctnr;
+					c = assign.c;
 				return *this;
 			}
 
-			bool empty(void) const { return _ctnr.empty(); }
+			bool empty(void) const { return c.empty(); }
 
-			size_type size(void) const { return _ctnr.size(); }
+			size_type size(void) const { return c.size(); }
 
-			value_type& top(void) { return _ctnr.back(); }
+			value_type& top(void) { return c.back(); }
 
-			value_type const& top(void) const { return _ctnr.back(); }
+			value_type const& top(void) const { return c.back(); }
 
-			void push(value_type const& val) { _ctnr.push_back(val); }
+			void push(value_type const& val) { c.push_back(val); }
 
-			void pop(void) { _ctnr.pop_back(); }
+			void pop(void) { c.pop_back(); }
 
 			/****************************************
 			*     NON-MEMBER FUNCTION OVERLOADS     *
@@ -52,32 +52,32 @@ namespace ft
 
 			friend bool operator==(stack const& lhs, stack const& rhs)
 			{
-				return (lhs._ctnr == rhs._ctnr);
+				return (lhs.c == rhs.c);
 			}
 
 			friend bool operator!=(stack const& lhs, stack const& rhs)
 			{
-				return (lhs._ctnr != rhs._ctnr);
+				return (lhs.c != rhs.c);
 			}
 
 			friend bool operator<(stack const& lhs, stack const& rhs)
 			{
-				return (lhs._ctnr < rhs._ctnr);
+				return (lhs.c < rhs.c);
 			}
 
 			friend bool operator<=(stack const& lhs, stack const& rhs)
 			{
-				return (lhs._ctnr <= rhs._ctnr);
+				return (lhs.c <= rhs.c);
 			}
 
 			friend bool operator>(stack const& lhs, stack const& rhs)
 			{
-				return (lhs._ctnr > rhs._ctnr);
+				return (lhs.c > rhs.c);
 			}
 
 			friend bool operator>=(stack const& lhs, stack const& rhs)
 			{
-				return (lhs._ctnr >= rhs._ctnr);
+				return (lhs.c >= rhs.c);
 			}
 
 		/***************************
@@ -85,7 +85,7 @@ namespace ft
 		***************************/
 
 		protected:
-			container_type _ctnr;
+			container_type c;
 	};
 }
 

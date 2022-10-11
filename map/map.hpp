@@ -116,13 +116,13 @@ namespace ft
 				return const_iterator(_bst, _bst->successor(_bst->maximum(_bst->getRoot())));
 			}
 
-			// reverse_iterator rbegin(void) { return reverse_iterator(end()); }
+			reverse_iterator rbegin(void) { return reverse_iterator(end()); }
 
-			// const_reverse_iterator rbegin(void) const { return const_reverse_iterator(end)); }
+			const_reverse_iterator rbegin(void) const { return const_reverse_iterator(end()); }
 
-			// reverse_iterator rend(void) { return reverse_iterator(begin()); }
+			reverse_iterator rend(void) { return reverse_iterator(begin()); }
 
-			// const_reverse_iterator rend(void) const { return const_reverse_iterator(begin()); }
+			const_reverse_iterator rend(void) const { return const_reverse_iterator(begin()); }
 
 			/*******************
 			*     CAPACITY     *

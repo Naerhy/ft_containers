@@ -17,6 +17,7 @@ namespace ft
 			typedef typename iterator_traits<Iter>::reference reference;
 
 			reverse_iterator(void) : _base(iterator_type()) {}
+
 			explicit reverse_iterator(iterator_type it) : _base(it) {}
 
 			template <typename U>
@@ -40,6 +41,7 @@ namespace ft
 			}
 
 			pointer operator->(void) const { return &(operator*()); }
+
 			reference operator[](difference_type n) const { return *(_base - 1 - n); }
 
 			reverse_iterator& operator++(void)

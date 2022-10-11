@@ -42,8 +42,8 @@ namespace ft
 			typedef typename Allocator::difference_type difference_type;
 			typedef vector_iterator<T> iterator;
 			typedef vector_const_iterator<T> const_iterator;
-			// typedef reverse_iterator
-			// typedef reverse_iterator<const_iterator> const_reverse_iterator;
+			typedef ft::reverse_iterator<iterator> reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 			/***************************
 			*     MEMBER FUNCTIONS     *
@@ -113,13 +113,20 @@ namespace ft
 			********************/
 
 			iterator begin(void) { return iterator(_data); }
+
 			const_iterator begin(void) const { return const_iterator(_data); }
+
 			iterator end(void) { return iterator(_data + _size); }
+
 			const_iterator end(void) const { return const_iterator(_data + _size); }
-			// reverse_iterator rbegin(void);
+
+			reverse_iterator rbegin(void) { return reverse_iterator(end()); }
+
 			const_reverse_iterator rbegin(void) const { return const_reverse_iterator(end()); }
-			// reverse_iterator rend(void);
-			// const_reverse_iterator rend(void) const;
+
+			reverse_iterator rend(void) { return reverse_iterator(begin()); }
+
+			const_reverse_iterator rend(void) const { return const_reverse_iterator(begin()); }
 
 			/*******************
 			*     CAPACITY     *
@@ -173,6 +180,7 @@ namespace ft
 			*************************/
 
 			reference operator[](size_type n) { return *(_data + n); }
+
 			const_reference operator[](size_type n) const { return *(_data + n); }
 
 			reference at(size_type n)
@@ -190,9 +198,11 @@ namespace ft
 			}
 
 			reference front(void) { return *_data; }
+
 			const_reference front(void) const { return *_data; }
 
 			reference back(void) { return *(_data + _size - 1); }
+
 			const_reference back(void) const { return *(_data + _size - 1); }
 
 			/********************
