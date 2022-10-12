@@ -8,12 +8,12 @@ namespace ft
 	{
 		public:
 			T data;
+			int level;
 			Node* left;
 			Node* right;
-			Node* parent;
 
-			Node(void) : data(), left(NULL), right(NULL), parent(NULL) {}
-			Node(T data) : data(data), left(NULL), right(NULL), parent(NULL) {}
+			Node(void) : data(), level(0), left(NULL), right(NULL) {}
+			Node(T data) : data(data), level(1), left(NULL), right(NULL) {}
 	};
 }
 

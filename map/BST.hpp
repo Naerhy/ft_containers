@@ -23,7 +23,6 @@ namespace ft
 				_allocator.construct(_nil, node_type());
 				_nil->left = _nil;
 				_nil->right = _nil;
-				_nil->parent = _nil;
 			}
 
 			~BST(void)
@@ -39,11 +38,10 @@ namespace ft
 				_allocator.construct(new_node, node_type(pair));
 				new_node->left = _nil;
 				new_node->right = _nil;
-				new_node->parent = _nil;
-				_insert(new_node, _root);
+				_root = _insert(_root, new_node);
 			}
 
-			void remove(key_type key) { _root = _remove(key, _root); }
+			void remove(key_type key) { _root = _remove(_root, key); }
 
 			node_type* search(key_type key) const { return _search(_root, key); }
 
@@ -68,30 +66,50 @@ namespace ft
 				return node;
 			}
 
-			node_type* predecessor(node_type* node) const
+			node_type* predecessor(node_type* node, node_type* pred, key_type key) const
 			{
-				if (node->left != _nil)
-					return maximum(node->left);
-				node_type* temp = node->parent;
-				while (temp != _nil && node == temp->left)
+				if (node == _nil)
+					return pred;
+				if (!(_comp(key, node->data.first)) && !(_comp(node->data.first, key)))
 				{
-					node = temp;
-					temp = temp->parent;
+					if (node->left != _nil)
+						return maximum(node->left);
 				}
-				return temp;
+				else if (_comp(key, node->data.first))
+					return predecessor(node->left, pred, key);
+				else
+				{
+					pred = node;
+					return predecessor(node->right, pred, key);
+				}
+				return pred;
 			}
 
-			node_type* successor(node_type* node) const
+			node_type* successor(node_type* root, node_type* x) const
 			{
-				if (node->right != _nil)
-					return minimum(node->right);
-				node_type* temp = node->parent;
-				while (temp != _nil && node == temp->right)
+				node_type* parent = _nil;
+				node_type* node = root;
+				while (node != _nil && node != x)
 				{
-					node = temp;
-					temp = temp->parent;
+					if (_comp(x->data.first, node->data.first))
+					{
+						parent = node;
+						node = node->left;
+					}
+					else
+						node = node->right;
 				}
-				return temp;
+				if (node == _nil)
+					return _nil;
+				if (node->right != _nil)
+				{
+					node_type* successor = node->right;
+					while (successor->left != _nil)
+						successor = successor->left;
+					return successor;
+				}
+				else
+					return parent;
 			}
 
 			node_type* getRoot(void) const { return _root; }
@@ -99,72 +117,97 @@ namespace ft
 			node_type* getNil(void) const { return _nil; }
 
 		private:
-			void _insert(node_type* new_node, node_type* node)
-			{
-				node_type* temp = _nil;
-				while (node != _nil)
-				{
-					temp = node;
-					if (_comp(new_node->data.first, node->data.first))
-						node = node->left;
-					else
-						node = node->right;
-				}
-				new_node->parent = temp;
-				if (temp == _nil)
-					_root = new_node;
-				else if (_comp(new_node->data.first, temp->data.first))
-					temp->left = new_node;
-				else
-					temp->right = new_node;
-			}
-
-			node_type* _remove(key_type key, node_type* node)
+			node_type* _insert(node_type* node, node_type* new_node)
 			{
 				if (node == _nil)
-					return node;
-				else if (_comp(key, node->data.first))
-					node->left = _remove(key, node->left);
-				else if (_comp(node->data.first, key))
-					node->right = _remove(key, node->right);
+					node = new_node;
 				else
 				{
-					if (node->left == _nil && node->right == _nil)
+					if (_comp(node->data.first, new_node->data.first))
+						node->right = _insert(node->right, new_node);
+					else
+						node->left = _insert(node->left, new_node);
+					node = _skew(node);
+					node = _split(node);
+				}
+				return node;
+			}
+
+			node_type* _remove(node_type* node, key_type key)
+			{
+				if (node != _nil)
+				{
+					if (!(_comp(key, node->data.first)) && !(_comp(node->data.first, key)))
 					{
-						_allocator.destroy(node);
-						_allocator.deallocate(node, 1);
-						node = _nil;
-					}
-					else if (node->left == _nil)
-					{
-						node_type* temp = node;
-						node = node->right;
-						node->parent = temp->parent; // TEST
-						_allocator.destroy(temp);
-						_allocator.deallocate(temp, 1);
-					}
-					else if (node->right == _nil)
-					{
-						node_type* temp = node;
-						node = node->left;
-						node->parent = temp->parent; // TEST
-						_allocator.destroy(temp);
-						_allocator.deallocate(temp, 1);
+						if (node->left != _nil && node->right != _nil)
+						{
+							node_type* heir = node->left;
+							while (heir->right != _nil)
+								heir = heir->right;
+							node_type* x = node;
+							node = _allocator.allocate(1);
+							_allocator.construct(node, node_type(heir->data));
+							node->level = x->level;
+							node->left = x->left;
+							node->right = x->right;
+							node->left = _remove(node->left, node->data.first);
+							_allocator.destroy(x);
+							_allocator.deallocate(x, 1);
+						}
+						else
+						{
+							node_type* temp = node;
+							if (node->left != _nil)
+								node = node->left;
+							else
+								node = node->right;
+							delete temp;
+						}
 					}
 					else
 					{
-						node_type* min = minimum(node->right);
-						node_type* temp = node;
-						node = _allocator.allocate(1);
-						_allocator.construct(node, node_type(min->data));
-						temp->left->parent = node;
-						temp->right->parent = node;
-						node->left = temp->left;
-						node->right = _remove(min->data.first, temp->right);
-						node->parent = temp->parent;
-						_allocator.destroy(temp);
-						_allocator.deallocate(temp, 1);
+						if (_comp(node->data.first, key))
+							node->right = _remove(node->right, key);
+						else
+							node->left = _remove(node->left, key);
 					}
+				}
+				if (node->left->level < node->level - 1 || node->right->level < node->level - 1)
+				{
+					if (node->right->level > --node->level)
+						node->right->level = node->level;
+					node = _skew(node);
+					node = _split(node);
+				}
+				return node;
+			}
+
+			node_type* _skew(node_type* node)
+			{
+				if (node->level)
+				{
+					if (node->left->level == node->level)
+					{
+						node_type* temp = node;
+						node = node->left;
+						temp->left = node->right;
+						node->right = temp;
+					}
+					node->right = _skew(node->right);
+				}
+				return node;
+			}
+
+			node_type* _split(node_type* node)
+			{
+				if (node->right->right->level == node->level && node->level)
+				{
+					node_type* temp = node;
+					node = node->right;
+					temp->right = node->left;
+					node->left = temp;
+					node->level++;
+					node->right = _split(node->right);
 				}
 				return node;
 			}

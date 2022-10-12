@@ -106,14 +106,18 @@ namespace ft
 				return const_iterator(_bst, _bst->minimum(_bst->getRoot()));
 			}
 
+			// USE GETNIL FOR END ???
+			// USE GETNIL FOR END ???
+			// USE GETNIL FOR END ???
+
 			iterator end(void)
 			{
-				return iterator(_bst, _bst->successor(_bst->maximum(_bst->getRoot())));
+				return iterator(_bst, _bst->successor(_bst->getRoot(), _bst->maximum(_bst->getRoot())));
 			}
 
 			const_iterator end(void) const
 			{
-				return const_iterator(_bst, _bst->successor(_bst->maximum(_bst->getRoot())));
+				return const_iterator(_bst, _bst->successor(_bst->getRoot(), _bst->maximum(_bst->getRoot())));
 			}
 
 			reverse_iterator rbegin(void) { return reverse_iterator(end()); }
