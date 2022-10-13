@@ -106,10 +106,6 @@ namespace ft
 				return const_iterator(_bst, _bst->minimum(_bst->getRoot()));
 			}
 
-			// USE GETNIL FOR END ???
-			// USE GETNIL FOR END ???
-			// USE GETNIL FOR END ???
-
 			iterator end(void)
 			{
 				return iterator(_bst, _bst->successor(_bst->getRoot(), _bst->maximum(_bst->getRoot())));

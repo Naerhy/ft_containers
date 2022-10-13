@@ -15,12 +15,6 @@
 #include "equal.hpp"
 #include "lexicographical_compare.hpp"
 
-// DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
-// DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
-// DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
-
-// RESTRICT SWAP FUNCTIONS TO ONLY VECTORS OF SAME TYPE ???
-
 namespace ft
 {
 	template <typename T, typename Allocator = std::allocator<T> >
