@@ -78,7 +78,8 @@ namespace ft
 						&& _lastMove == FORWARD)
 					_current = _tree->maximum(_tree->getRoot());
 				else
-					_current = _tree->predecessor(_tree->getRoot(), _tree->getNil(), _current);
+					_current = _tree->predecessor(_tree->getRoot(), _tree->getNil(),
+							_current->data.first);
 				_lastMove = BACKWARD;
 				return *this;
 			}

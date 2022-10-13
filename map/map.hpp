@@ -3,15 +3,15 @@
 
 #include <memory>
 #include <functional>
-#include "../utils/pair.hpp"
-#include "../utils/make_pair.hpp"
+#include "pair.hpp"
+#include "make_pair.hpp"
 #include "Node.hpp"
 #include "BST.hpp"
 #include "map_iterator.hpp"
 #include "map_const_iterator.hpp"
-#include "../utils/reverse_iterator.hpp"
-#include "../utils/equal.hpp"
-#include "../utils/lexicographical_compare.hpp"
+#include "reverse_iterator.hpp"
+#include "equal.hpp"
+#include "lexicographical_compare.hpp"
 
 namespace ft
 {
@@ -149,7 +149,7 @@ namespace ft
 
 			mapped_type& operator[](key_type const& k)
 			{
-				return insert(make_pair(k, T())).first->second;
+				return insert(ft::make_pair(k, mapped_type())).first->second;
 			}
 
 			/********************
@@ -171,6 +171,7 @@ namespace ft
 
 			iterator insert(iterator position, value_type const& val)
 			{
+				(void)position;
 				return insert(val).first;
 			}
 
@@ -184,11 +185,7 @@ namespace ft
 				}
 			}
 
-			void erase(iterator position)
-			{
-				_bst->remove(position->first);
-				_size--;
-			}
+			void erase(iterator position) { erase(position->first); }
 
 			size_type erase(key_type const& k)
 			{
@@ -205,10 +202,12 @@ namespace ft
 
 			void erase(iterator first, iterator last)
 			{
+				iterator temp;
 				while (first != last)
 				{
-					_bst.remove(first->first);
+					temp = first;
 					first++;
+					erase(temp->first);
 				}
 			}
 

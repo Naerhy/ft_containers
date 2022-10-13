@@ -9,11 +9,11 @@
 
 #include "vector_iterator.hpp"
 #include "vector_const_iterator.hpp"
-#include "../utils/reverse_iterator.hpp"
-#include "../utils/enable_if.hpp"
-#include "../utils/is_integral.hpp"
-#include "../utils/equal.hpp"
-#include "../utils/lexicographical_compare.hpp"
+#include "reverse_iterator.hpp"
+#include "enable_if.hpp"
+#include "is_integral.hpp"
+#include "equal.hpp"
+#include "lexicographical_compare.hpp"
 
 // DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
 // DEALLOCATE EVERY TEMP POINTER CREATED WITH ALLOCATOR !!!!
@@ -290,6 +290,9 @@ namespace ft
 					push_back(*(temp + index));
 					index++;
 				}
+				for (size_type i = 0; i < old_size; i++)
+					_allocator.destroy(temp + i);
+				_allocator.deallocate(temp, old_size);
 			}
 
 			iterator erase(iterator position)
@@ -363,7 +366,7 @@ namespace ft
 
 			size_type _get_iterator_index(iterator position) const
 			{
-				iterator it = begin();
+				const_iterator it = begin();
 				size_type i = 0;
 				while (it != position)
 				{

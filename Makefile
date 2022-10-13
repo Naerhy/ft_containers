@@ -1,17 +1,19 @@
 NAME = ft_containers
 
-SRC = main.cpp
+SRC = std_main.cpp
 
 OBJ = ${SRC:.cpp=.o}
 
-CC = g++ ${CFLAGS}
+INC = -I./map -I./stack -I./utils -I./vector
+
+CC = c++ ${CFLAGS}
 
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
 RM = rm -rf
 
 .cpp.o:
-	${CC} -c $< -o ${<:.cpp=.o}
+	${CC} ${INC} -c $< -o ${<:.cpp=.o}
 
 ${NAME}: ${OBJ}
 	${CC} -o ${NAME} ${OBJ}
